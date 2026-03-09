@@ -1,9 +1,9 @@
 <?php
 
-namespace LaraAgent\Console\Commands;
+namespace Laragent\Console\Commands;
 
 use Illuminate\Console\Command;
-use LaraAgent\Facades\Agent;
+use Laragent\Facades\Agent;
 
 class AgentRunCommand extends Command
 {

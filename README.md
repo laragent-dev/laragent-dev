@@ -1,9 +1,9 @@
 # Laragent
 
-[![Packagist Version](https://img.shields.io/packagist/v/laragent-dev/laragent)](https://packagist.org/packages/laragent-dev/laragent)
+[![Packagist Version](https://img.shields.io/packagist/v/laragent-dev/laragent-dev)](https://packagist.org/packages/laragent-dev/laragent-dev)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4)](https://php.net)
 [![Laravel](https://img.shields.io/badge/Laravel-11%2B-FF2D20)](https://laravel.com)
-[![Tests](https://github.com/laragent-dev/laragent/workflows/Tests/badge.svg)](https://github.com/laragent-dev/laragent/actions)
+[![Tests](https://github.com/laragent-dev/laragent-dev/workflows/Tests/badge.svg)](https://github.com/laragent-dev/laragent-dev/actions)
 [![License](https://img.shields.io/badge/license-MIT-38BDF8)](LICENSE)
 
 > **Autonomous AI Agents for Laravel. Runs locally for free. No API keys required.**
@@ -40,7 +40,7 @@
 ## Installation
 
 ```bash
-composer require laragent-dev/laragent
+composer require laragent-dev/laragent-dev
 php artisan laragent:install
 ```
 
@@ -52,7 +52,7 @@ The installer guides you through everything: choosing a provider, installing Oll
 
 **Ask anything:**
 ```php
-use LaraAgent\Facades\Agent;
+use Laragent\Facades\Agent;
 
 $result = Agent::run('Summarize what our app does based on the database structure');
 echo $result->answer;
@@ -100,7 +100,7 @@ echo $result->finalOutput;
 
 ## Built-in Agent Personas
 
-Five pre-built agents with tuned system prompts and sensible tool defaults:
+Thirteen pre-built agents with tuned system prompts and sensible tool defaults:
 
 | Persona | Method | Best For |
 |---|---|---|
@@ -109,6 +109,14 @@ Five pre-built agents with tuned system prompts and sensible tool defaults:
 | ContentAgent | `Agent::content()` | Writing and content creation |
 | WorkflowAgent | `Agent::workflow()` | Multi-step automation |
 | DevAgent | `Agent::dev()` | Code generation and dev tasks |
+| CodingAgent | `Agent::coding()` | Implementation and code writing |
+| TestingAgent | `Agent::testing()` | Test generation and QA |
+| PlanningAgent | `Agent::planning()` | Architecture and planning |
+| DocumentationAgent | `Agent::docs()` | Writing docs and API references |
+| DeploymentAgent | `Agent::deploy()` | Deployments and DevOps tasks |
+| ResearchAgent | `Agent::research()` | Gathering information and facts |
+| DesignAgent | `Agent::design()` | System and component design |
+| UiUxAgent | `Agent::uiux()` | UI/UX design specifications |
 
 ```php
 // Data analyst — queries DB, returns numbers with context
@@ -225,7 +233,7 @@ Agent::tools(['database_query', 'send_email'])->run('...');
 ## Creating Custom Tools
 
 ```php
-use LaraAgent\Tools\BaseTool;
+use Laragent\Tools\BaseTool;
 use Illuminate\Support\Facades\Http;
 
 class StripeChargeLookupTool extends BaseTool
@@ -279,7 +287,7 @@ class StripeChargeLookupTool extends BaseTool
 Register it in a service provider:
 
 ```php
-app(\LaraAgent\Tools\ToolRegistry::class)->register(new StripeChargeLookupTool());
+app(\Laragent\Tools\ToolRegistry::class)->register(new StripeChargeLookupTool());
 ```
 
 Use it:
@@ -295,8 +303,8 @@ Agent::tools(['stripe_charge_lookup'])->run('Did user john@example.com get charg
 Laragent ships a testing fake — no real AI calls in tests:
 
 ```php
-use LaraAgent\Facades\Agent;
-use LaraAgent\Testing\AgentFake;
+use Laragent\Facades\Agent;
+use Laragent\Testing\AgentFake;
 
 it('sends re-engagement emails to inactive users', function () {
     Agent::fake();
@@ -328,12 +336,116 @@ it('sends re-engagement emails to inactive users', function () {
 
 ---
 
+## Interactive CLI
+
+Laragent ships a full interactive CLI — like Claude Code but for your own Laravel app:
+
+```bash
+php artisan laragent:chat
+```
+
+Features:
+- Persistent conversation memory across turns
+- Real-time tool call display
+- Slash commands: `/help`, `/exit`, `/clear`, `/tools`, `/agent`, `/provider`, `/swarm`, `/status`
+- Switch personas mid-session: `/agent coding`
+- Launch swarms: `/swarm Build a REST API for products`
+- Speech-to-text input: `/speak` (requires LocalAI)
+
+```bash
+# Start with a specific provider and tools
+php artisan laragent:chat --provider=ollama --tools=database --tools=filesystem
+
+# Start as a specific persona
+php artisan laragent:chat --agent=coding
+
+# Resume a previous session
+php artisan laragent:chat --session=your-session-id
+```
+
+---
+
+## Multi-Agent Swarm
+
+Launch multiple specialized agents collaboratively on complex tasks:
+
+```bash
+php artisan laragent:swarm "Build a products inventory management feature"
+```
+
+Built-in templates:
+
+| Template | Agents | Use Case |
+|---|---|---|
+| `feature` (default) | planning, coding, testing, docs | Full feature from spec to tests |
+| `api` | planning, coding, testing, docs | REST API with feature tests |
+| `frontend` | planning, uiux, coding, testing | Frontend component with tests |
+| `audit` | research, docs | Code audit and report |
+
+```bash
+# Choose a template
+php artisan laragent:swarm "Add a subscription billing system" --template=api
+
+# Use specific agents in order
+php artisan laragent:swarm "Review database schema" --agents=research --agents=documentation
+
+# Or from PHP
+use Laragent\Swarm\SwarmOrchestrator;
+
+$orchestrator = new SwarmOrchestrator(app('laragent'));
+$swarm = $orchestrator->plan('Build a REST API for orders', 'api');
+$result = $swarm->run();
+
+echo $result->finalOutput;
+echo $result->summary(); // "Swarm completed: 4 agents, 12 iterations, 8420ms"
+```
+
+---
+
+## Speech-to-Text (CLI)
+
+Use your voice as input in `laragent:chat` — completely free, runs locally.
+
+**Recommended: LocalAI** (Ollama-like HTTP server, no Python required):
+
+```bash
+# Install LocalAI with Whisper support
+docker run -p 8080:8080 localai/localai:latest whisper
+
+# OR install the binary: https://localai.io
+```
+
+```env
+LARAGENT_STT_DRIVER=localai
+LARAGENT_STT_HOST=http://localhost:8080
+LARAGENT_STT_MODEL=whisper-1
+```
+
+**Alternative: Whisper CLI** (Python-based):
+
+```bash
+pip install openai-whisper
+sudo apt install sox  # Linux — for microphone capture
+brew install sox      # macOS
+```
+
+```env
+LARAGENT_STT_DRIVER=whisper
+LARAGENT_STT_MODEL=tiny
+```
+
+Once configured, use `/speak` in the CLI chat to record and transcribe your voice.
+
+---
+
 ## Artisan Commands
 
 | Command | Description |
 |---|---|
 | `php artisan laragent:install` | Interactive setup wizard |
-| `php artisan agent:run "task"` | Run an agent task from the terminal |
+| `php artisan laragent:chat` | Interactive CLI chat session |
+| `php artisan laragent:swarm "task"` | Multi-agent swarm for complex tasks |
+| `php artisan agent:run "task"` | Run a single agent task from the terminal |
 | `php artisan agent:sessions` | List recent agent sessions |
 | `php artisan agent:logs {id}` | Inspect a session step-by-step |
 
@@ -374,12 +486,12 @@ $result->toJson();         // JSON string
 ## Events
 
 ```php
-use LaraAgent\Events\AgentStarted;
-use LaraAgent\Events\AgentThinking;
-use LaraAgent\Events\AgentToolCalled;
-use LaraAgent\Events\AgentToolResult;
-use LaraAgent\Events\AgentCompleted;
-use LaraAgent\Events\AgentFailed;
+use Laragent\Events\AgentStarted;
+use Laragent\Events\AgentThinking;
+use Laragent\Events\AgentToolCalled;
+use Laragent\Events\AgentToolResult;
+use Laragent\Events\AgentCompleted;
+use Laragent\Events\AgentFailed;
 
 Event::listen(AgentCompleted::class, function (AgentCompleted $event) {
     Log::info('Agent completed', [
@@ -438,23 +550,23 @@ Laragent is MIT licensed and free forever. If it saves you hours on a client pro
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. Quick start:
 
 ```bash
-git clone https://github.com/laragent-dev/laragent.git
+git clone https://github.com/laragent-dev/laragent-dev.git
 cd laragent
 composer install
 ./vendor/bin/pest      # run tests
 ./vendor/bin/pint      # fix code style
 ```
 
-- Bug reports and feature requests: [open an issue](https://github.com/laragent-dev/laragent/issues)
+- Bug reports and feature requests: [open an issue](https://github.com/laragent-dev/laragent-dev/issues)
 - Security vulnerabilities: email `security@laragent.dev` (do not open a public issue)
-- Questions and discussion: [GitHub Discussions](https://github.com/laragent-dev/laragent/discussions)
+- Questions and discussion: [GitHub Discussions](https://github.com/laragent-dev/laragent-dev/discussions)
 
 ---
 
 ## Community
 
-- [GitHub Discussions](https://github.com/laragent-dev/laragent/discussions) — questions, ideas, show and tell
-- [GitHub Issues](https://github.com/laragent-dev/laragent/issues) — bugs and feature requests
+- [GitHub Discussions](https://github.com/laragent-dev/laragent-dev/discussions) — questions, ideas, show and tell
+- [GitHub Issues](https://github.com/laragent-dev/laragent-dev/issues) — bugs and feature requests
 - [laragent.dev](https://laragent.dev) — website and Pro plan
 
 ---

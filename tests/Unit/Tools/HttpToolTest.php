@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use LaraAgent\Tools\HttpTool;
+use Laragent\Tools\HttpTool;
 
 it('blocks localhost (127.0.0.1)', function () {
     $tool = new HttpTool();

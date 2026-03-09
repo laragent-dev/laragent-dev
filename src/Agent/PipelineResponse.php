@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraAgent\Agent;
+namespace Laragent\Agent;
 
 class PipelineResponse
 {

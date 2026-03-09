@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use LaraAgent\Agent\AgentMemory;
-use LaraAgent\Agent\AgentResponse;
-use LaraAgent\Agent\AgentRunner;
-use LaraAgent\Providers\OllamaProvider;
-use LaraAgent\Tools\ToolRegistry;
+use Laragent\Agent\AgentMemory;
+use Laragent\Agent\AgentResponse;
+use Laragent\Agent\AgentRunner;
+use Laragent\Providers\OllamaProvider;
+use Laragent\Tools\ToolRegistry;
 
 beforeEach(function () {
     config(['laragent.memory_driver' => 'array']);
@@ -131,11 +131,11 @@ it('fires events during agent lifecycle', function () {
     $startedFired = false;
     $completedFired = false;
 
-    \Illuminate\Support\Facades\Event::listen(\LaraAgent\Events\AgentStarted::class, function () use (&$startedFired) {
+    \Illuminate\Support\Facades\Event::listen(\Laragent\Events\AgentStarted::class, function () use (&$startedFired) {
         $startedFired = true;
     });
 
-    \Illuminate\Support\Facades\Event::listen(\LaraAgent\Events\AgentCompleted::class, function () use (&$completedFired) {
+    \Illuminate\Support\Facades\Event::listen(\Laragent\Events\AgentCompleted::class, function () use (&$completedFired) {
         $completedFired = true;
     });
 

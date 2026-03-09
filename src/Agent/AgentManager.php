@@ -1,13 +1,21 @@
 <?php
 
-namespace LaraAgent\Agent;
+namespace Laragent\Agent;
 
-use LaraAgent\Agents\ContentAgent;
-use LaraAgent\Agents\DataAgent;
-use LaraAgent\Agents\DevAgent;
-use LaraAgent\Agents\SupportAgent;
-use LaraAgent\Agents\WorkflowAgent;
-use LaraAgent\Tools\ToolRegistry;
+use Laragent\Agents\CodingAgent;
+use Laragent\Agents\ContentAgent;
+use Laragent\Agents\DataAgent;
+use Laragent\Agents\DeploymentAgent;
+use Laragent\Agents\DesignAgent;
+use Laragent\Agents\DevAgent;
+use Laragent\Agents\DocumentationAgent;
+use Laragent\Agents\PlanningAgent;
+use Laragent\Agents\ResearchAgent;
+use Laragent\Agents\SupportAgent;
+use Laragent\Agents\TestingAgent;
+use Laragent\Agents\UiUxAgent;
+use Laragent\Agents\WorkflowAgent;
+use Laragent\Tools\ToolRegistry;
 
 class AgentManager
 {
@@ -65,9 +73,49 @@ class AgentManager
         return new DevAgent($this->toolRegistry);
     }
 
-    public function fake(): \LaraAgent\Testing\AgentFake
+    public function coding(): CodingAgent
     {
-        $fake = new \LaraAgent\Testing\AgentFake($this->toolRegistry);
+        return new CodingAgent($this->toolRegistry);
+    }
+
+    public function testing(): TestingAgent
+    {
+        return new TestingAgent($this->toolRegistry);
+    }
+
+    public function planning(): PlanningAgent
+    {
+        return new PlanningAgent($this->toolRegistry);
+    }
+
+    public function docs(): DocumentationAgent
+    {
+        return new DocumentationAgent($this->toolRegistry);
+    }
+
+    public function deploy(): DeploymentAgent
+    {
+        return new DeploymentAgent($this->toolRegistry);
+    }
+
+    public function research(): ResearchAgent
+    {
+        return new ResearchAgent($this->toolRegistry);
+    }
+
+    public function design(): DesignAgent
+    {
+        return new DesignAgent($this->toolRegistry);
+    }
+
+    public function uiux(): UiUxAgent
+    {
+        return new UiUxAgent($this->toolRegistry);
+    }
+
+    public function fake(): \Laragent\Testing\AgentFake
+    {
+        $fake = new \Laragent\Testing\AgentFake($this->toolRegistry);
         app()->instance('laragent', $fake);
         return $fake;
     }

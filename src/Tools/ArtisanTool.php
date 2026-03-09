@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraAgent\Tools;
+namespace Laragent\Tools;
 
 use Illuminate\Support\Facades\Artisan;
 

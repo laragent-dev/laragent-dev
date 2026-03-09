@@ -1,19 +1,19 @@
 <?php
 
-namespace LaraAgent\Agent;
+namespace Laragent\Agent;
 
-use LaraAgent\Events\AgentCompleted;
-use LaraAgent\Events\AgentFailed;
-use LaraAgent\Events\AgentStarted;
-use LaraAgent\Events\AgentThinking;
-use LaraAgent\Events\AgentToolCalled;
-use LaraAgent\Events\AgentToolResult;
-use LaraAgent\Models\AgentLog;
-use LaraAgent\Models\AgentSession;
-use LaraAgent\Providers\BaseProvider;
-use LaraAgent\Tools\ToolRegistry;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use Laragent\Events\AgentCompleted;
+use Laragent\Events\AgentFailed;
+use Laragent\Events\AgentStarted;
+use Laragent\Events\AgentThinking;
+use Laragent\Events\AgentToolCalled;
+use Laragent\Events\AgentToolResult;
+use Laragent\Models\AgentLog;
+use Laragent\Models\AgentSession;
+use Laragent\Providers\BaseProvider;
+use Laragent\Tools\ToolRegistry;
 
 class AgentRunner
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace LaraAgent\Events;
+namespace Laragent\Events;
 
-use LaraAgent\Models\AgentSession;
+use Laragent\Models\AgentSession;
 
 class AgentToolResult
 {

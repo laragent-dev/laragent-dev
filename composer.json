@@ -1,12 +1,12 @@
 {
-    "name": "laragent-dev/laragent",
+    "name": "laragent-dev/laragent-dev",
     "description": "Autonomous AI Agents for Laravel — local LLMs or cloud, your choice",
     "keywords": ["laravel", "ai", "agents", "llm", "ollama", "anthropic", "openai", "automation"],
     "homepage": "https://laragent.dev",
     "license": "MIT",
     "authors": [
         {
-            "name": "LaraAgent",
+            "name": "Laragent",
             "homepage": "https://laragent.dev"
         }
     ],
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "LaraAgent\\": "src/"
+            "Laragent\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LaraAgent\\Tests\\": "tests/"
+            "Laragent\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -52,10 +52,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaraAgent\\LaraAgentServiceProvider"
+                "Laragent\\LaragentServiceProvider"
             ],
             "aliases": {
-                "Agent": "LaraAgent\\Facades\\Agent"
+                "Agent": "Laragent\\Facades\\Agent"
             }
         }
     },

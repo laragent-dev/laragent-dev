@@ -1,9 +1,9 @@
 <?php
 
-namespace LaraAgent\Console\Commands;
+namespace Laragent\Console\Commands;
 
 use Illuminate\Console\Command;
-use LaraAgent\Models\AgentSession;
+use Laragent\Models\AgentSession;
 
 class AgentSessionsCommand extends Command
 {

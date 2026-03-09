@@ -1,18 +1,17 @@
 <?php
 
-namespace LaraAgent\Jobs;
+namespace Laragent\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use LaraAgent\Agent\AgentBuilder;
-use LaraAgent\Agent\AgentMemory;
-use LaraAgent\Agent\AgentRunner;
-use LaraAgent\Providers\ProviderFactory;
-use LaraAgent\Tools\ToolRegistry;
 use Illuminate\Support\Str;
+use Laragent\Agent\AgentMemory;
+use Laragent\Agent\AgentRunner;
+use Laragent\Providers\ProviderFactory;
+use Laragent\Tools\ToolRegistry;
 
 class RunAgentJob implements ShouldQueue
 {

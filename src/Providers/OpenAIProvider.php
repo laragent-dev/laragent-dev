@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraAgent\Providers;
+namespace Laragent\Providers;
 
 use Illuminate\Support\Facades\Http;
 

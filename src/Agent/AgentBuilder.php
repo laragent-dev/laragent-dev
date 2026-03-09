@@ -1,13 +1,13 @@
 <?php
 
-namespace LaraAgent\Agent;
+namespace Laragent\Agent;
 
-use LaraAgent\Jobs\RunAgentJob;
-use LaraAgent\Providers\BaseProvider;
-use LaraAgent\Providers\ProviderFactory;
-use LaraAgent\Tools\ToolRegistry;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Laragent\Jobs\RunAgentJob;
+use Laragent\Providers\BaseProvider;
+use Laragent\Providers\ProviderFactory;
+use Laragent\Tools\ToolRegistry;
 
 class AgentBuilder
 {

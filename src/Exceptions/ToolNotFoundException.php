@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraAgent\Exceptions;
+namespace Laragent\Exceptions;
 
 use InvalidArgumentException;
 

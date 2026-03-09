@@ -1,14 +1,13 @@
 <?php
 
-namespace LaraAgent\Testing;
+namespace Laragent\Testing;
 
-use LaraAgent\Agent\AgentBuilder;
-use LaraAgent\Agent\AgentManager;
-use LaraAgent\Agent\AgentResponse;
-use LaraAgent\Agent\AgentPipeline;
-use LaraAgent\Tools\ToolRegistry;
-use PHPUnit\Framework\Assert;
 use Illuminate\Support\Str;
+use Laragent\Agent\AgentBuilder;
+use Laragent\Agent\AgentManager;
+use Laragent\Agent\AgentResponse;
+use Laragent\Tools\ToolRegistry;
+use PHPUnit\Framework\Assert;
 
 class AgentFake extends AgentManager
 {

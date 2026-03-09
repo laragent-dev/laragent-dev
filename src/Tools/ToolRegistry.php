@@ -1,8 +1,8 @@
 <?php
 
-namespace LaraAgent\Tools;
+namespace Laragent\Tools;
 
-use LaraAgent\Exceptions\ToolNotFoundException;
+use Laragent\Exceptions\ToolNotFoundException;
 
 class ToolRegistry
 {

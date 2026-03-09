@@ -1,9 +1,9 @@
 <?php
 
-namespace LaraAgent\Providers;
+namespace Laragent\Providers;
 
 use Illuminate\Support\Facades\Http;
-use LaraAgent\Exceptions\ProviderException;
+use Laragent\Exceptions\ProviderException;
 
 class AnthropicProvider extends BaseProvider
 {

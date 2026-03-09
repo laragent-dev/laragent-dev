@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraAgent\Agents;
+namespace Laragent\Agents;
 
 class DevAgent extends AgentPersona
 {

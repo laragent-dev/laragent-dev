@@ -1,9 +1,9 @@
 <?php
 
-namespace LaraAgent\Events;
+namespace Laragent\Events;
 
-use LaraAgent\Agent\AgentResponse;
-use LaraAgent\Models\AgentSession;
+use Laragent\Agent\AgentResponse;
+use Laragent\Models\AgentSession;
 
 class AgentCompleted
 {

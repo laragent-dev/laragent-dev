@@ -1,6 +1,6 @@
 <?php
 
-use LaraAgent\Tools\DatabaseTool;
+use Laragent\Tools\DatabaseTool;
 
 beforeEach(function () {
     config(['laragent.allowed_models' => []]);

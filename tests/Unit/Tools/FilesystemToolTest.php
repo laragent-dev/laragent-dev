@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
-use LaraAgent\Tools\FilesystemTool;
+use Laragent\Tools\FilesystemTool;
 
 beforeEach(function () {
     Storage::fake('local');

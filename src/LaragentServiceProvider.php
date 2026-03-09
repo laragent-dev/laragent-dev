@@ -1,21 +1,23 @@
 <?php
 
-namespace LaraAgent;
+namespace Laragent;
 
 use Illuminate\Support\ServiceProvider;
-use LaraAgent\Agent\AgentManager;
-use LaraAgent\Console\Commands\AgentInstallCommand;
-use LaraAgent\Console\Commands\AgentLogsCommand;
-use LaraAgent\Console\Commands\AgentRunCommand;
-use LaraAgent\Console\Commands\AgentSessionsCommand;
-use LaraAgent\Tools\ArtisanTool;
-use LaraAgent\Tools\DatabaseTool;
-use LaraAgent\Tools\FilesystemTool;
-use LaraAgent\Tools\HttpTool;
-use LaraAgent\Tools\MailerTool;
-use LaraAgent\Tools\ToolRegistry;
+use Laragent\Agent\AgentManager;
+use Laragent\Console\Commands\AgentInstallCommand;
+use Laragent\Console\Commands\AgentLogsCommand;
+use Laragent\Console\Commands\AgentRunCommand;
+use Laragent\Console\Commands\AgentSessionsCommand;
+use Laragent\Console\Commands\ChatCommand;
+use Laragent\Console\Commands\SwarmCommand;
+use Laragent\Tools\ArtisanTool;
+use Laragent\Tools\DatabaseTool;
+use Laragent\Tools\FilesystemTool;
+use Laragent\Tools\HttpTool;
+use Laragent\Tools\MailerTool;
+use Laragent\Tools\ToolRegistry;
 
-class LaraAgentServiceProvider extends ServiceProvider
+class LaragentServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -62,6 +64,8 @@ class LaraAgentServiceProvider extends ServiceProvider
                 AgentRunCommand::class,
                 AgentSessionsCommand::class,
                 AgentLogsCommand::class,
+                ChatCommand::class,
+                SwarmCommand::class,
             ]);
         }
 

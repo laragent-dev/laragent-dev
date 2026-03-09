@@ -1,6 +1,6 @@
 <?php
 
-use LaraAgent\Tests\TestCase;
+use Laragent\Tests\TestCase;
 
 uses(TestCase::class)->in('Feature', 'Unit');
 

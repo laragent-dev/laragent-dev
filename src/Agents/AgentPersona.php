@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraAgent\Agents;
+namespace Laragent\Agents;
 
-use LaraAgent\Agent\AgentBuilder;
-use LaraAgent\Agent\AgentResponse;
-use LaraAgent\Tools\ToolRegistry;
+use Laragent\Agent\AgentBuilder;
+use Laragent\Agent\AgentResponse;
+use Laragent\Tools\ToolRegistry;
 
 abstract class AgentPersona
 {

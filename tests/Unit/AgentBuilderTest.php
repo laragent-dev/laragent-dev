@@ -1,7 +1,7 @@
 <?php
 
-use LaraAgent\Agent\AgentBuilder;
-use LaraAgent\Tools\ToolRegistry;
+use Laragent\Agent\AgentBuilder;
+use Laragent\Tools\ToolRegistry;
 use InvalidArgumentException;
 
 beforeEach(function () {

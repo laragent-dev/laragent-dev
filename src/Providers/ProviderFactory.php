@@ -1,8 +1,8 @@
 <?php
 
-namespace LaraAgent\Providers;
+namespace Laragent\Providers;
 
-use LaraAgent\Exceptions\InvalidProviderException;
+use Laragent\Exceptions\InvalidProviderException;
 
 class ProviderFactory
 {

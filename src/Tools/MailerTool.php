@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraAgent\Tools;
+namespace Laragent\Tools;
 
 use Illuminate\Support\Facades\Mail;
 
@@ -35,7 +35,7 @@ class MailerTool extends BaseTool
         $to = $params['to'] ?? '';
         $subject = $params['subject'] ?? '';
         $body = $params['body'] ?? '';
-        $fromName = $params['from_name'] ?? config('app.name', 'LaraAgent');
+        $fromName = $params['from_name'] ?? config('app.name', 'Laragent');
 
         // Validate email
         if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {

@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraAgent\Providers;
+namespace Laragent\Providers;
 
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\ConnectionException;
-use LaraAgent\Exceptions\ProviderException;
+use Illuminate\Support\Facades\Http;
+use Laragent\Exceptions\ProviderException;
 
 class OllamaProvider extends BaseProvider
 {

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use LaraAgent\Facades\Agent;
-use LaraAgent\Agent\PipelineResponse;
+use Laragent\Facades\Agent;
+use Laragent\Agent\PipelineResponse;
 
 beforeEach(function () {
     config(['laragent.memory_driver' => 'array']);

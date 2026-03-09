@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use LaraAgent\Providers\OllamaProvider;
-use LaraAgent\Providers\ProviderResponse;
+use Laragent\Providers\OllamaProvider;
+use Laragent\Providers\ProviderResponse;
 
 it('throws RuntimeException when ollama is not running', function () {
     Http::fake([

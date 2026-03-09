@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraAgent\Console\Commands;
+namespace Laragent\Console\Commands;
 
 use Illuminate\Console\Command;
-use LaraAgent\Models\AgentLog;
-use LaraAgent\Models\AgentSession;
+use Laragent\Models\AgentLog;
+use Laragent\Models\AgentSession;
 
 class AgentLogsCommand extends Command
 {

@@ -15,7 +15,7 @@ Thank you for your interest in contributing. Laragent is MIT licensed and open t
 ## Getting Started
 
 ```bash
-git clone https://github.com/laragent-dev/laragent.git
+git clone https://github.com/laragent-dev/laragent-dev.git
 cd laragent
 composer install
 ```

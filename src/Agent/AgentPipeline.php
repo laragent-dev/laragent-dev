@@ -1,8 +1,8 @@
 <?php
 
-namespace LaraAgent\Agent;
+namespace Laragent\Agent;
 
-use LaraAgent\Tools\ToolRegistry;
+use Laragent\Tools\ToolRegistry;
 
 class AgentPipeline
 {

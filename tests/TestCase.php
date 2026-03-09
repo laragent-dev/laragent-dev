@@ -1,8 +1,8 @@
 <?php
 
-namespace LaraAgent\Tests;
+namespace Laragent\Tests;
 
-use LaraAgent\LaraAgentServiceProvider;
+use Laragent\LaragentServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -10,7 +10,7 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            LaraAgentServiceProvider::class,
+            LaragentServiceProvider::class,
         ];
     }
 

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Interactive CLI chat: `php artisan laragent:chat` with real-time tool display, slash commands, persona switching
+- Multi-agent swarm: `php artisan laragent:swarm` with feature/api/frontend/audit templates
+- 8 new specialized agent personas: CodingAgent, TestingAgent, PlanningAgent, DocumentationAgent, DeploymentAgent, ResearchAgent, DesignAgent, UiUxAgent
+- Speech-to-text via LocalAI (free, local HTTP API, Ollama-like) — use `/speak` in CLI chat
+- Whisper and whisper.cpp STT drivers as alternatives
+- `Agent::coding()`, `Agent::testing()`, `Agent::planning()`, `Agent::docs()`, `Agent::deploy()`, `Agent::research()`, `Agent::design()`, `Agent::uiux()` facade shortcuts
+- `SwarmOrchestrator` for programmatic swarm building from PHP
+- `CliRenderer` with ANSI color output (no external dependencies)
+
 ## [0.1.0] - 2024-03-09
 
 ### Added
@@ -24,5 +34,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Artisan commands: `laragent:install`, `agent:run`, `agent:sessions`, `agent:logs`
 - Comprehensive Pest PHP test suite
 
-[Unreleased]: https://github.com/laragent-dev/laragent/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/laragent-dev/laragent/releases/tag/v0.1.0
+[Unreleased]: https://github.com/laragent-dev/laragent-dev/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/laragent-dev/laragent-dev/releases/tag/v0.1.0

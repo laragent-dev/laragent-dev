@@ -1,18 +1,25 @@
 <?php
 
-namespace LaraAgent\Facades;
+namespace Laragent\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use LaraAgent\Agent\AgentBuilder;
-use LaraAgent\Agent\AgentManager;
-use LaraAgent\Agent\AgentPipeline;
-use LaraAgent\Agent\AgentResponse;
-use LaraAgent\Agents\ContentAgent;
-use LaraAgent\Agents\DataAgent;
-use LaraAgent\Agents\DevAgent;
-use LaraAgent\Agents\SupportAgent;
-use LaraAgent\Agents\WorkflowAgent;
-use LaraAgent\Testing\AgentFake;
+use Laragent\Agent\AgentBuilder;
+use Laragent\Agent\AgentPipeline;
+use Laragent\Agent\AgentResponse;
+use Laragent\Agents\CodingAgent;
+use Laragent\Agents\ContentAgent;
+use Laragent\Agents\DataAgent;
+use Laragent\Agents\DeploymentAgent;
+use Laragent\Agents\DesignAgent;
+use Laragent\Agents\DevAgent;
+use Laragent\Agents\DocumentationAgent;
+use Laragent\Agents\PlanningAgent;
+use Laragent\Agents\ResearchAgent;
+use Laragent\Agents\SupportAgent;
+use Laragent\Agents\TestingAgent;
+use Laragent\Agents\UiUxAgent;
+use Laragent\Agents\WorkflowAgent;
+use Laragent\Testing\AgentFake;
 
 /**
  * @method static AgentBuilder make(?string $name = null)
@@ -25,6 +32,14 @@ use LaraAgent\Testing\AgentFake;
  * @method static ContentAgent content()
  * @method static WorkflowAgent workflow()
  * @method static DevAgent dev()
+ * @method static CodingAgent coding()
+ * @method static TestingAgent testing()
+ * @method static PlanningAgent planning()
+ * @method static DocumentationAgent docs()
+ * @method static DeploymentAgent deploy()
+ * @method static ResearchAgent research()
+ * @method static DesignAgent design()
+ * @method static UiUxAgent uiux()
  * @method static AgentFake fake()
  */
 class Agent extends Facade

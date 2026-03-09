@@ -1,15 +1,15 @@
 <?php
 
-namespace LaraAgent\Console\Commands;
+namespace Laragent\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use LaraAgent\Providers\OllamaProvider;
+use Laragent\Providers\OllamaProvider;
 
 class AgentInstallCommand extends Command
 {
     protected $signature = 'laragent:install';
-    protected $description = 'Install and configure LaraAgent with your preferred AI provider';
+    protected $description = 'Install and configure Laragent with your preferred AI provider';
 
     public function handle(): int
     {
@@ -210,7 +210,7 @@ class AgentInstallCommand extends Command
 
         try {
             $start = microtime(true);
-            $result = \LaraAgent\Facades\Agent::run('Say hello in exactly 5 words');
+            $result = \Laragent\Facades\Agent::run('Say hello in exactly 5 words');
             $ms = round((microtime(true) - $start) * 1000);
 
             $this->info('');
@@ -232,8 +232,8 @@ class AgentInstallCommand extends Command
         $this->line('  1. Try it in tinker:    php artisan tinker');
         $this->line("                          Agent::run('What can you help me with?')");
         $this->line('  2. Run the demo:        php artisan agent:run "Describe our database schema"');
-        $this->line('  3. Read the docs:       https://github.com/laragent-dev/laragent');
-        $this->line('  4. Star us on GitHub:   github.com/laragent-dev/laragent');
+        $this->line('  3. Read the docs:       https://github.com/laragent-dev/laragent-dev');
+        $this->line('  4. Star us on GitHub:   github.com/laragent-dev/laragent-dev');
         $this->line('');
     }
 

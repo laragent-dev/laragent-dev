@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraAgent\Agent;
+namespace Laragent\Agent;
 
-use LaraAgent\Models\AgentSession;
-use LaraAgent\Providers\BaseProvider;
 use Illuminate\Support\Facades\Cache;
+use Laragent\Models\AgentSession;
+use Laragent\Providers\BaseProvider;
 
 class AgentMemory
 {
