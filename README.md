@@ -7,7 +7,7 @@
   <a href="https://packagist.org/packages/laragent-dev/laragent-dev"><img src="https://img.shields.io/packagist/dt/laragent-dev/laragent-dev" alt="Total Downloads"></a>
   <a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.2%2B-777BB4" alt="PHP"></a>
   <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-11%2B-FF2D20" alt="Laravel"></a>
-  <a href="https://github.com/laragent-dev/laragent-dev/actions"><img src="https://github.com/laragent-dev/laragent-dev/workflows/Tests/badge.svg" alt="Tests"></a>
+  <a href="https://github.com/laragent-dev/laragent-dev/actions/workflows/tests.yml"><img src="https://github.com/laragent-dev/laragent-dev/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-38BDF8" alt="License"></a>
 </p>
 
