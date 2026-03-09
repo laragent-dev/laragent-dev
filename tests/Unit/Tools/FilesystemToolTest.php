@@ -9,23 +9,23 @@ beforeEach(function () {
 });
 
 it('blocks path traversal with ..', function () {
-    $tool = new FilesystemTool();
+    $tool = new FilesystemTool;
     $result = $tool->execute(['action' => 'read', 'path' => '../etc/passwd']);
     expect($result)->toContain('ERROR');
 });
 
 it('blocks absolute paths', function () {
-    $tool = new FilesystemTool();
+    $tool = new FilesystemTool;
     $result = $tool->execute(['action' => 'read', 'path' => '/etc/passwd']);
     expect($result)->toContain('ERROR');
 });
 
 it('can write and read a file', function () {
-    $tool = new FilesystemTool();
+    $tool = new FilesystemTool;
 
     $writeResult = $tool->execute([
-        'action'  => 'write',
-        'path'    => 'test.txt',
+        'action' => 'write',
+        'path' => 'test.txt',
         'content' => 'Hello, World!',
     ]);
 
@@ -33,14 +33,14 @@ it('can write and read a file', function () {
 
     $readResult = $tool->execute([
         'action' => 'read',
-        'path'   => 'test.txt',
+        'path' => 'test.txt',
     ]);
 
     expect($readResult)->toBe('Hello, World!');
 });
 
 it('returns correct list of files', function () {
-    $tool = new FilesystemTool();
+    $tool = new FilesystemTool;
 
     $tool->execute(['action' => 'write', 'path' => 'file1.txt', 'content' => 'a']);
     $tool->execute(['action' => 'write', 'path' => 'file2.txt', 'content' => 'b']);
@@ -53,7 +53,7 @@ it('returns correct list of files', function () {
 });
 
 it('checks file existence correctly', function () {
-    $tool = new FilesystemTool();
+    $tool = new FilesystemTool;
 
     $result = $tool->execute(['action' => 'exists', 'path' => 'nonexistent.txt']);
     expect($result)->toContain('false');

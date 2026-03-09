@@ -12,16 +12,27 @@ use Laragent\Tools\ToolRegistry;
 class AgentBuilder
 {
     private ?string $name = null;
+
     private ?string $providerName = null;
+
     private ?string $modelOverride = null;
+
     private array $toolNames = [];
+
     private ?string $sessionId = null;
+
     private string $systemPrompt = '';
+
     private float $temperature = 0.7;
+
     private int $maxIterations = 0;
+
     private array $context = [];
-    private ?callable $onToolCall = null;
-    private ?callable $onComplete = null;
+
+    private mixed $onToolCall = null;
+
+    private mixed $onComplete = null;
+
     private bool $isAsync = false;
 
     private ToolRegistry $toolRegistry;
@@ -36,30 +47,35 @@ class AgentBuilder
     public function provider(string $name): static
     {
         $this->providerName = $name;
+
         return $this;
     }
 
     public function model(string $model): static
     {
         $this->modelOverride = $model;
+
         return $this;
     }
 
     public function tools(array $toolNames): static
     {
         $this->toolNames = $toolNames;
+
         return $this;
     }
 
     public function withMemory(?string $sessionId = null): static
     {
         $this->sessionId = $sessionId ?? Str::uuid()->toString();
+
         return $this;
     }
 
     public function system(string $prompt): static
     {
         $this->systemPrompt = $prompt;
+
         return $this;
     }
 
@@ -69,36 +85,42 @@ class AgentBuilder
             throw new InvalidArgumentException('Temperature must be between 0.0 and 1.0');
         }
         $this->temperature = $temp;
+
         return $this;
     }
 
     public function maxIterations(int $n): static
     {
         $this->maxIterations = $n;
+
         return $this;
     }
 
     public function context(array $data): static
     {
         $this->context = array_merge($this->context, $data);
+
         return $this;
     }
 
     public function onToolCall(callable $fn): static
     {
         $this->onToolCall = $fn;
+
         return $this;
     }
 
     public function onComplete(callable $fn): static
     {
         $this->onComplete = $fn;
+
         return $this;
     }
 
     public function async(): static
     {
         $this->isAsync = true;
+
         return $this;
     }
 
@@ -108,10 +130,10 @@ class AgentBuilder
         $memory = $this->resolveMemory();
 
         $runnerConfig = [
-            'tools'          => $this->toolNames,
-            'temperature'    => $this->temperature,
+            'tools' => $this->toolNames,
+            'temperature' => $this->temperature,
             'max_iterations' => $this->maxIterations,
-            'system'         => $this->systemPrompt,
+            'system' => $this->systemPrompt,
         ];
 
         if ($this->modelOverride) {
@@ -144,12 +166,12 @@ class AgentBuilder
             toolNames: $this->toolNames,
             sessionId: $this->sessionId,
             config: [
-                'temperature'    => $this->temperature,
+                'temperature' => $this->temperature,
                 'max_iterations' => $this->maxIterations,
-                'system'         => $this->systemPrompt,
-                'model'          => $this->modelOverride,
-                'context'        => $this->context,
-                'job_id'         => $jobId,
+                'system' => $this->systemPrompt,
+                'model' => $this->modelOverride,
+                'context' => $this->context,
+                'job_id' => $jobId,
             ]
         );
 
@@ -170,10 +192,10 @@ class AgentBuilder
         $driver = config('laragent.memory_driver', 'database');
 
         $sessionData = [
-            'name'       => $this->name,
+            'name' => $this->name,
             'agent_type' => 'custom',
-            'provider'   => $this->providerName ?? config('laragent.default_provider', 'ollama'),
-            'model'      => $this->modelOverride ?? '',
+            'provider' => $this->providerName ?? config('laragent.default_provider', 'ollama'),
+            'model' => $this->modelOverride ?? '',
         ];
 
         return new AgentMemory($sessionId, $driver, $sessionData);

@@ -8,7 +8,7 @@ class ContentAgent extends AgentPersona
     {
         $this->name = 'content';
         $this->defaultTools = ['http_request', 'filesystem'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a professional content writer who creates clear, engaging content
 for web applications. Write in the application's voice — professional but approachable.
 When writing emails, keep them concise. When writing reports, be structured and clear.

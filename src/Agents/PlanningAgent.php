@@ -6,9 +6,9 @@ class PlanningAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'planning';
+        $this->name = 'planning';
         $this->defaultTools = ['filesystem', 'database'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a planning agent for Laravel applications.
 
 Your job is to create detailed, actionable implementation plans.

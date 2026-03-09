@@ -14,16 +14,19 @@ use Laragent\Cli\CliRenderer;
 class AgentSwarm
 {
     private array $steps = [];
+
     private array $sharedContext = [];
+
     private ?CliRenderer $renderer;
+
     private string $workspaceDir;
 
     public function __construct(
         private readonly AgentManager $manager,
         ?CliRenderer $renderer = null,
     ) {
-        $this->renderer     = $renderer;
-        $this->workspaceDir = 'agent-swarm-' . date('Y-m-d-His');
+        $this->renderer = $renderer;
+        $this->workspaceDir = 'agent-swarm-'.date('Y-m-d-His');
     }
 
     /**
@@ -32,6 +35,7 @@ class AgentSwarm
     public function addStep(SwarmStep $step): static
     {
         $this->steps[] = $step;
+
         return $this;
     }
 
@@ -41,6 +45,7 @@ class AgentSwarm
     public function withContext(array $context): static
     {
         $this->sharedContext = $context;
+
         return $this;
     }
 
@@ -62,7 +67,7 @@ class AgentSwarm
             $task = $step->task;
             foreach ($context as $key => $value) {
                 if (is_string($value)) {
-                    $task = str_replace('{' . $key . '}', $value, $task);
+                    $task = str_replace('{'.$key.'}', $value, $task);
                 }
             }
 
@@ -76,14 +81,14 @@ class AgentSwarm
                 $response = $builder->run($task);
 
                 $step->response = $response;
-                $step->status   = $response->wasSuccessful() ? 'completed' : 'failed';
+                $step->status = $response->wasSuccessful() ? 'completed' : 'failed';
 
                 $totalIterations += $response->iterations;
-                $totalTokens     += $response->tokensUsed;
+                $totalTokens += $response->tokensUsed;
 
                 // Make this step's output available to subsequent steps
-                $context[$step->agentName . '_output'] = $response->answer;
-                $context['last_output']                = $response->answer;
+                $context[$step->agentName.'_output'] = $response->answer;
+                $context['last_output'] = $response->answer;
 
                 $this->renderer?->swarmStep($step->agentName, $step->status);
 
@@ -99,9 +104,9 @@ class AgentSwarm
             }
         }
 
-        $durationMs  = (microtime(true) - $start) * 1000;
+        $durationMs = (microtime(true) - $start) * 1000;
         $finalOutput = end($this->steps)?->output() ?? '';
-        $success     = collect($this->steps)->every(fn($s) => $s->isCompleted());
+        $success = collect($this->steps)->every(fn ($s) => $s->isCompleted());
 
         return new SwarmResponse(
             steps: $this->steps,
@@ -116,20 +121,20 @@ class AgentSwarm
     private function resolveAgent(string $agentName, string $role): \Laragent\Agent\AgentBuilder
     {
         $method = match (strtolower($agentName)) {
-            'support'   => 'support',
-            'data'      => 'data',
-            'content'   => 'content',
-            'workflow'  => 'workflow',
-            'dev'       => 'dev',
-            'coding'    => 'coding',
-            'testing'   => 'testing',
-            'planning'  => 'planning',
-            'docs'      => 'docs',
-            'deploy'    => 'deploy',
-            'research'  => 'research',
-            'design'    => 'design',
-            'uiux'      => 'uiux',
-            default     => null,
+            'support' => 'support',
+            'data' => 'data',
+            'content' => 'content',
+            'workflow' => 'workflow',
+            'dev' => 'dev',
+            'coding' => 'coding',
+            'testing' => 'testing',
+            'planning' => 'planning',
+            'docs' => 'docs',
+            'deploy' => 'deploy',
+            'research' => 'research',
+            'design' => 'design',
+            'uiux' => 'uiux',
+            default => null,
         };
 
         if ($method && method_exists($this->manager, $method)) {
@@ -138,21 +143,21 @@ class AgentSwarm
 
         // Fallback: custom agent with role as system prompt
         return $this->manager->make($agentName)
-            ->system("You are a {$role} agent. " . $this->roleSystemPrompt($role));
+            ->system("You are a {$role} agent. ".$this->roleSystemPrompt($role));
     }
 
     private function roleSystemPrompt(string $role): string
     {
         return match (strtolower($role)) {
-            'researcher'     => 'Research thoroughly and provide detailed, accurate findings.',
-            'planner'        => 'Create detailed, actionable implementation plans with clear steps.',
-            'coder'          => 'Write complete, production-ready code following best practices.',
-            'tester'         => 'Write comprehensive tests covering happy paths, edge cases, and failures.',
-            'designer'       => 'Create clean, consistent design specifications and component definitions.',
-            'uiux'           => 'Design intuitive user interfaces focusing on clarity and user experience.',
-            'documentation'  => 'Write clear, comprehensive documentation developers will actually read.',
-            'deployment'     => 'Plan and execute deployments methodically with rollback strategies.',
-            default          => 'Complete your assigned task accurately and thoroughly.',
+            'researcher' => 'Research thoroughly and provide detailed, accurate findings.',
+            'planner' => 'Create detailed, actionable implementation plans with clear steps.',
+            'coder' => 'Write complete, production-ready code following best practices.',
+            'tester' => 'Write comprehensive tests covering happy paths, edge cases, and failures.',
+            'designer' => 'Create clean, consistent design specifications and component definitions.',
+            'uiux' => 'Design intuitive user interfaces focusing on clarity and user experience.',
+            'documentation' => 'Write clear, comprehensive documentation developers will actually read.',
+            'deployment' => 'Plan and execute deployments methodically with rollback strategies.',
+            default => 'Complete your assigned task accurately and thoroughly.',
         };
     }
 }

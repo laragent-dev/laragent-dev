@@ -21,22 +21,28 @@ class ChatCommand extends Command
     protected $description = 'Start an interactive Laragent CLI session';
 
     private CliRenderer $renderer;
+
     private string $sessionId;
+
     private string $currentProvider;
+
     private ?string $currentModel;
+
     private array $currentTools = [];
+
     private ?string $currentAgent = null;
+
     private bool $useMemory = true;
 
     public function handle(): int
     {
-        $this->renderer = new CliRenderer(!$this->option('no-color'));
+        $this->renderer = new CliRenderer(! $this->option('no-color'));
 
         $this->currentProvider = $this->option('provider') ?? config('laragent.default_provider', 'ollama');
-        $this->currentModel    = $this->option('model');
-        $this->currentTools    = $this->option('tools') ?? [];
-        $this->currentAgent    = $this->option('agent');
-        $this->sessionId       = $this->option('session') ?? Str::uuid()->toString();
+        $this->currentModel = $this->option('model');
+        $this->currentTools = $this->option('tools') ?? [];
+        $this->currentAgent = $this->option('agent');
+        $this->sessionId = $this->option('session') ?? Str::uuid()->toString();
 
         $providerConfig = config("laragent.providers.{$this->currentProvider}", []);
         $model = $this->currentModel ?? $providerConfig['model'] ?? '?';
@@ -49,7 +55,7 @@ class ChatCommand extends Command
 
             $input = $this->readLine();
 
-            if ($input === null || $input === '' ) {
+            if ($input === null || $input === '') {
                 continue;
             }
 
@@ -64,6 +70,7 @@ class ChatCommand extends Command
                 if ($this->handleCommand($input) === false) {
                     break; // /exit
                 }
+
                 continue;
             }
 
@@ -77,11 +84,11 @@ class ChatCommand extends Command
         return self::SUCCESS;
     }
 
-    private function handleCommand(string $input): bool|null
+    private function handleCommand(string $input): ?bool
     {
-        $parts   = explode(' ', $input, 2);
+        $parts = explode(' ', $input, 2);
         $command = $parts[0];
-        $args    = $parts[1] ?? '';
+        $args = $parts[1] ?? '';
 
         switch ($command) {
             case '/exit':
@@ -106,37 +113,37 @@ class ChatCommand extends Command
                 if (empty($args)) {
                     $registry = app(ToolRegistry::class);
                     $names = array_keys($registry->all());
-                    $this->renderer->info('Available tools: ' . implode(', ', $names));
-                    $this->renderer->info('Active tools: ' . (empty($this->currentTools) ? 'none' : implode(', ', $this->currentTools)));
+                    $this->renderer->info('Available tools: '.implode(', ', $names));
+                    $this->renderer->info('Active tools: '.(empty($this->currentTools) ? 'none' : implode(', ', $this->currentTools)));
                 } else {
                     $this->currentTools = array_filter(explode(' ', $args));
-                    $this->renderer->success('Tools set: ' . implode(', ', $this->currentTools));
+                    $this->renderer->success('Tools set: '.implode(', ', $this->currentTools));
                 }
                 break;
 
             case '/agent':
-                if (!empty($args)) {
+                if (! empty($args)) {
                     $this->currentAgent = trim($args);
                     $this->renderer->success("Persona switched to: {$this->currentAgent}");
                 } else {
-                    $this->renderer->info('Current agent: ' . ($this->currentAgent ?? 'custom'));
+                    $this->renderer->info('Current agent: '.($this->currentAgent ?? 'custom'));
                     $this->renderer->info('Available: support, data, content, workflow, dev, coding, testing, planning, docs, deploy, research, design, uiux');
                 }
                 break;
 
             case '/provider':
-                if (!empty($args)) {
+                if (! empty($args)) {
                     $this->currentProvider = trim($args);
                     $providerConfig = config("laragent.providers.{$this->currentProvider}", []);
                     $model = $this->currentModel ?? $providerConfig['model'] ?? '?';
                     $this->renderer->success("Provider switched to: {$this->currentProvider} ({$model})");
                 } else {
-                    $this->renderer->info('Current provider: ' . $this->currentProvider);
+                    $this->renderer->info('Current provider: '.$this->currentProvider);
                 }
                 break;
 
             case '/swarm':
-                if (!empty($args)) {
+                if (! empty($args)) {
                     $this->runSwarm($args);
                 } else {
                     $this->renderer->info('Usage: /swarm <task description>');
@@ -149,9 +156,9 @@ class ChatCommand extends Command
 
             case '/status':
                 $this->renderer->info("Provider: {$this->currentProvider}");
-                $this->renderer->info("Model: " . ($this->currentModel ?? 'default'));
-                $this->renderer->info("Tools: " . (empty($this->currentTools) ? 'none' : implode(', ', $this->currentTools)));
-                $this->renderer->info("Persona: " . ($this->currentAgent ?? 'custom'));
+                $this->renderer->info('Model: '.($this->currentModel ?? 'default'));
+                $this->renderer->info('Tools: '.(empty($this->currentTools) ? 'none' : implode(', ', $this->currentTools)));
+                $this->renderer->info('Persona: '.($this->currentAgent ?? 'custom'));
                 $this->renderer->info("Session: {$this->sessionId}");
                 break;
 
@@ -187,7 +194,7 @@ class ChatCommand extends Command
             if ($this->currentModel) {
                 $builder->model($this->currentModel);
             }
-            if (!empty($this->currentTools)) {
+            if (! empty($this->currentTools)) {
                 $builder->tools($this->currentTools);
             }
             $builder->withMemory($this->sessionId);
@@ -215,12 +222,13 @@ class ChatCommand extends Command
         $sttConfig = config('laragent.stt', []);
         $stt = new SttManager($sttConfig);
 
-        if (!$stt->isAvailable()) {
+        if (! $stt->isAvailable()) {
             $this->renderer->error(
-                "Speech-to-text not available. Install Whisper:\n" .
-                "  pip install openai-whisper\n" .
-                "  brew install sox  (macOS) OR  sudo apt install sox  (Linux)"
+                "Speech-to-text not available. Install Whisper:\n".
+                "  pip install openai-whisper\n".
+                '  brew install sox  (macOS) OR  sudo apt install sox  (Linux)'
             );
+
             return;
         }
 
@@ -228,7 +236,7 @@ class ChatCommand extends Command
         $this->renderer->info("Recording for {$seconds} seconds... speak now.");
 
         try {
-            $driver   = $stt->driver();
+            $driver = $stt->driver();
             $audioFile = $driver->record($seconds);
 
             $this->renderer->info('Transcribing...');
@@ -238,6 +246,7 @@ class ChatCommand extends Command
 
             if (empty($transcript)) {
                 $this->renderer->error('No speech detected.');
+
                 return;
             }
 
@@ -260,20 +269,20 @@ class ChatCommand extends Command
     private function resolvePersonaMethod(string $agent): string
     {
         return match (strtolower($agent)) {
-            'support'   => 'support',
-            'data'      => 'data',
-            'content'   => 'content',
-            'workflow'  => 'workflow',
-            'dev'       => 'dev',
-            'coding'    => 'coding',
-            'testing'   => 'testing',
-            'planning'  => 'planning',
-            'docs'      => 'docs',
-            'deploy'    => 'deploy',
-            'research'  => 'research',
-            'design'    => 'design',
-            'uiux'      => 'uiux',
-            default     => $agent,
+            'support' => 'support',
+            'data' => 'data',
+            'content' => 'content',
+            'workflow' => 'workflow',
+            'dev' => 'dev',
+            'coding' => 'coding',
+            'testing' => 'testing',
+            'planning' => 'planning',
+            'docs' => 'docs',
+            'deploy' => 'deploy',
+            'research' => 'research',
+            'design' => 'design',
+            'uiux' => 'uiux',
+            default => $agent,
         };
     }
 
@@ -281,13 +290,15 @@ class ChatCommand extends Command
     {
         if (function_exists('readline')) {
             $line = readline('');
-            if ($line !== false && !empty(trim($line))) {
+            if ($line !== false && ! empty(trim($line))) {
                 readline_add_history($line);
             }
+
             return $line === false ? null : $line;
         }
 
         $line = fgets(STDIN);
+
         return $line === false ? null : rtrim($line, "\n");
     }
 }

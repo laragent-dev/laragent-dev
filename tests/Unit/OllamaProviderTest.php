@@ -6,12 +6,12 @@ use Laragent\Providers\ProviderResponse;
 
 it('throws RuntimeException when ollama is not running', function () {
     Http::fake([
-        'localhost:11434/*' => fn() => throw new \Illuminate\Http\Client\ConnectionException('Connection refused'),
+        'localhost:11434/*' => fn () => throw new \Illuminate\Http\Client\ConnectionException('Connection refused'),
     ]);
 
     $provider = new OllamaProvider(['host' => 'http://localhost:11434', 'model' => 'llama3.2']);
 
-    expect(fn() => $provider->complete([['role' => 'user', 'content' => 'Hello']]))->toThrow(\RuntimeException::class, 'ollama serve');
+    expect(fn () => $provider->complete([['role' => 'user', 'content' => 'Hello']]))->toThrow(\RuntimeException::class, 'ollama serve');
 });
 
 it('returns helpful message for model not found', function () {
@@ -21,17 +21,17 @@ it('returns helpful message for model not found', function () {
 
     $provider = new OllamaProvider(['host' => 'http://localhost:11434', 'model' => 'llama99']);
 
-    expect(fn() => $provider->complete([['role' => 'user', 'content' => 'Hello']]))->toThrow(\RuntimeException::class, 'ollama pull');
+    expect(fn () => $provider->complete([['role' => 'user', 'content' => 'Hello']]))->toThrow(\RuntimeException::class, 'ollama pull');
 });
 
 it('returns ProviderResponse on successful completion', function () {
     Http::fake([
         'localhost:11434/api/chat' => Http::response([
-            'message'           => ['role' => 'assistant', 'content' => 'Hello there!'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => 'Hello there!'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 15,
-            'eval_count'        => 8,
+            'eval_count' => 8,
         ]),
     ]);
 
@@ -47,7 +47,7 @@ it('returns ProviderResponse on successful completion', function () {
 
 it('returns false for isRunning when ollama is not running', function () {
     Http::fake([
-        'localhost:11434' => fn() => throw new \Illuminate\Http\Client\ConnectionException('Connection refused'),
+        'localhost:11434' => fn () => throw new \Illuminate\Http\Client\ConnectionException('Connection refused'),
     ]);
 
     $provider = new OllamaProvider(['host' => 'http://localhost:11434', 'model' => 'llama3.2']);

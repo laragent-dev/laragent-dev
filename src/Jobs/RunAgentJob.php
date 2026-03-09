@@ -18,6 +18,7 @@ class RunAgentJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public int $timeout = 300;
 
     public function __construct(
@@ -37,7 +38,7 @@ class RunAgentJob implements ShouldQueue
         $driver = config('laragent.memory_driver', 'database');
         $memory = new AgentMemory($sessionId, $driver, [
             'agent_type' => 'queued',
-            'provider'   => $this->providerName,
+            'provider' => $this->providerName,
         ]);
 
         $runnerConfig = array_merge($this->config, [

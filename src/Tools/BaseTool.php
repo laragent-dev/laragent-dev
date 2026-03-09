@@ -20,9 +20,9 @@ abstract class BaseTool
     public function toArray(): array
     {
         return [
-            'name'        => $this->name(),
+            'name' => $this->name(),
             'description' => $this->description(),
-            'parameters'  => $this->parameters(),
+            'parameters' => $this->parameters(),
         ];
     }
 }

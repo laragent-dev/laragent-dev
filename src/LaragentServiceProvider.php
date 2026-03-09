@@ -21,18 +21,18 @@ class LaragentServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/laragent.php', 'laragent');
+        $this->mergeConfigFrom(__DIR__.'/../config/laragent.php', 'laragent');
 
         // Register tool registry as singleton
         $this->app->singleton(ToolRegistry::class, function () {
-            $registry = new ToolRegistry();
+            $registry = new ToolRegistry;
 
             // Register all default tools
-            $registry->register(new DatabaseTool());
-            $registry->register(new MailerTool());
-            $registry->register(new HttpTool());
-            $registry->register(new ArtisanTool());
-            $registry->register(new FilesystemTool());
+            $registry->register(new DatabaseTool);
+            $registry->register(new MailerTool);
+            $registry->register(new HttpTool);
+            $registry->register(new ArtisanTool);
+            $registry->register(new FilesystemTool);
 
             return $registry;
         });
@@ -50,12 +50,12 @@ class LaragentServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             // Publish config
             $this->publishes([
-                __DIR__ . '/../config/laragent.php' => config_path('laragent.php'),
+                __DIR__.'/../config/laragent.php' => config_path('laragent.php'),
             ], 'laragent-config');
 
             // Publish migrations
             $this->publishes([
-                __DIR__ . '/../database/migrations/' => database_path('migrations'),
+                __DIR__.'/../database/migrations/' => database_path('migrations'),
             ], 'laragent-migrations');
 
             // Register Artisan commands
@@ -70,6 +70,6 @@ class LaragentServiceProvider extends ServiceProvider
         }
 
         // Load migrations
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 }

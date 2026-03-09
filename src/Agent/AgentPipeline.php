@@ -8,7 +8,9 @@ class AgentPipeline
 {
     /** @var PipelineStep[] */
     private array $steps = [];
-    private ?callable $onStepComplete = null;
+
+    private mixed $onStepComplete = null;
+
     private ToolRegistry $toolRegistry;
 
     public function __construct(ToolRegistry $toolRegistry)
@@ -20,12 +22,14 @@ class AgentPipeline
     {
         $step = new PipelineStep($agentName, $this);
         $this->steps[] = $step;
+
         return $step;
     }
 
     public function onStepComplete(callable $fn): static
     {
         $this->onStepComplete = $fn;
+
         return $this;
     }
 
@@ -42,7 +46,7 @@ class AgentPipeline
             // Interpolate context values into task
             $task = $pipelineStep->getTask();
             foreach ($context as $key => $value) {
-                $task = str_replace('{' . $key . '}', $value, $task);
+                $task = str_replace('{'.$key.'}', $value, $task);
             }
 
             // Build agent
@@ -52,11 +56,11 @@ class AgentPipeline
                 $builder->provider($providerName);
             }
 
-            if (!empty($pipelineStep->getToolNames())) {
+            if (! empty($pipelineStep->getToolNames())) {
                 $builder->tools($pipelineStep->getToolNames());
             }
 
-            if (!empty($context)) {
+            if (! empty($context)) {
                 $builder->context($context);
             }
 
@@ -78,8 +82,9 @@ class AgentPipeline
             }
 
             // Stop pipeline on failure
-            if (!$response->wasSuccessful()) {
+            if (! $response->wasSuccessful()) {
                 $totalDurationMs = (microtime(true) - $start) * 1000;
+
                 return new PipelineResponse(
                     steps: $results,
                     finalOutput: $finalOutput,
@@ -108,6 +113,7 @@ class AgentPipeline
         // For async pipeline, serialize the steps and dispatch a job
         // Returns a pipeline session ID
         $pipelineId = \Illuminate\Support\Str::uuid()->toString();
+
         // Simplified: just run synchronously for now
         // A full async implementation would require a dedicated pipeline job
         return $pipelineId;

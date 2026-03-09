@@ -20,9 +20,9 @@ class SwarmCommand extends Command
 
     public function handle(): int
     {
-        $task     = $this->argument('task');
+        $task = $this->argument('task');
         $template = $this->option('template');
-        $renderer = new CliRenderer(!$this->option('no-color'));
+        $renderer = new CliRenderer(! $this->option('no-color'));
 
         $orchestrator = new SwarmOrchestrator(app('laragent'));
         $swarm = $orchestrator->plan($task, $template);
@@ -32,11 +32,11 @@ class SwarmCommand extends Command
 
         // Re-build steps from template
         $orchestrator2 = new SwarmOrchestrator(app('laragent'));
-        $plannedSwarm  = $orchestrator2->plan($task, $template);
+        $plannedSwarm = $orchestrator2->plan($task, $template);
 
         // Custom agents if specified
         $customAgents = $this->option('agents');
-        if (!empty($customAgents)) {
+        if (! empty($customAgents)) {
             $swarm2 = new AgentSwarm(app('laragent'), $renderer);
             foreach ($customAgents as $agentName) {
                 $swarm2->addStep(new SwarmStep(

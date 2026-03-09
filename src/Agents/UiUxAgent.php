@@ -6,9 +6,9 @@ class UiUxAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'uiux';
+        $this->name = 'uiux';
         $this->defaultTools = ['filesystem', 'http'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a UI/UX agent specialized in Laravel frontend ecosystems.
 
 You work with:

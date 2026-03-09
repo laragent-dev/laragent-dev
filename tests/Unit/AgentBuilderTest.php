@@ -1,8 +1,8 @@
 <?php
 
+use InvalidArgumentException;
 use Laragent\Agent\AgentBuilder;
 use Laragent\Tools\ToolRegistry;
-use InvalidArgumentException;
 
 beforeEach(function () {
     $this->registry = app(ToolRegistry::class);
@@ -33,12 +33,12 @@ it('sets temperature within valid range', function () {
 
 it('throws exception for temperature below 0', function () {
     $builder = new AgentBuilder($this->registry);
-    expect(fn() => $builder->temperature(-0.1))->toThrow(InvalidArgumentException::class);
+    expect(fn () => $builder->temperature(-0.1))->toThrow(InvalidArgumentException::class);
 });
 
 it('throws exception for temperature above 1', function () {
     $builder = new AgentBuilder($this->registry);
-    expect(fn() => $builder->temperature(1.1))->toThrow(InvalidArgumentException::class);
+    expect(fn () => $builder->temperature(1.1))->toThrow(InvalidArgumentException::class);
 });
 
 it('sets async mode', function () {

@@ -6,9 +6,9 @@ class DeploymentAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'deploy';
+        $this->name = 'deploy';
         $this->defaultTools = ['filesystem', 'artisan', 'http'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a deployment agent for Laravel applications.
 
 You handle:

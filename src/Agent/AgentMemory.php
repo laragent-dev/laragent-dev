@@ -9,8 +9,11 @@ use Laragent\Providers\BaseProvider;
 class AgentMemory
 {
     private AgentSession $session;
+
     private string $driver;
+
     private array $memoryStore = [];  // For array driver
+
     private array $messageStore = []; // For array driver
 
     public function __construct(
@@ -24,17 +27,17 @@ class AgentMemory
             $this->session = AgentSession::firstOrCreate(
                 ['id' => $sessionId],
                 array_merge([
-                    'context'  => [],
+                    'context' => [],
                     'messages' => [],
-                    'status'   => 'pending',
+                    'status' => 'pending',
                 ], $sessionData)
             );
         } else {
             $this->session = new AgentSession(array_merge([
-                'id'       => $sessionId,
-                'context'  => [],
+                'id' => $sessionId,
+                'context' => [],
                 'messages' => [],
-                'status'   => 'pending',
+                'status' => 'pending',
             ], $sessionData));
             $this->session->id = $sessionId;
 
@@ -64,6 +67,7 @@ class AgentMemory
         if ($this->driver === 'database') {
             return ($this->session->context ?? [])[$key] ?? $default;
         }
+
         return $this->memoryStore[$key] ?? $default;
     }
 
@@ -97,6 +101,7 @@ class AgentMemory
         if ($this->driver === 'database') {
             return $this->session->fresh()->messages ?? [];
         }
+
         return $this->messageStore;
     }
 
@@ -105,6 +110,7 @@ class AgentMemory
         if ($this->driver === 'database') {
             return $this->session->fresh()->context ?? [];
         }
+
         return $this->memoryStore;
     }
 
@@ -137,7 +143,7 @@ class AgentMemory
 
         $summaryMessages = array_merge($toSummarize, [
             [
-                'role'    => 'user',
+                'role' => 'user',
                 'content' => 'Please provide a brief summary of the conversation above, focusing on key decisions, data found, and actions taken.',
             ],
         ]);
@@ -145,7 +151,7 @@ class AgentMemory
         try {
             $summaryResponse = $provider->complete($summaryMessages);
             $summary = [
-                ['role' => 'system', 'content' => 'Previous conversation summary: ' . $summaryResponse->content],
+                ['role' => 'system', 'content' => 'Previous conversation summary: '.$summaryResponse->content],
             ];
             $newMessages = array_merge($summary, $toKeep);
 
@@ -171,14 +177,15 @@ class AgentMemory
     {
         return [
             'session_id' => $this->session->id,
-            'context'    => $this->getContext(),
-            'messages'   => $this->getMessages(),
+            'context' => $this->getContext(),
+            'messages' => $this->getMessages(),
         ];
     }
 
     public static function resume(string $sessionId): static
     {
         $driver = config('laragent.memory_driver', 'database');
+
         return new static($sessionId, $driver);
     }
 
@@ -186,6 +193,7 @@ class AgentMemory
     {
         $sessionId = $sessionId ?? \Illuminate\Support\Str::uuid()->toString();
         $driver = config('laragent.memory_driver', 'database');
+
         return new static($sessionId, $driver);
     }
 }

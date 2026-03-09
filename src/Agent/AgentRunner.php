@@ -3,7 +3,6 @@
 namespace Laragent\Agent;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Laragent\Events\AgentCompleted;
 use Laragent\Events\AgentFailed;
 use Laragent\Events\AgentStarted;
@@ -64,7 +63,7 @@ class AgentRunner
                 // Call provider
                 $providerResponse = $this->provider->complete($messages, [
                     'temperature' => $this->config['temperature'] ?? 0.7,
-                    'model'       => $this->config['model'] ?? null,
+                    'model' => $this->config['model'] ?? null,
                 ]);
 
                 $totalTokens += $providerResponse->totalTokens();
@@ -115,22 +114,9 @@ class AgentRunner
                     continue;
                 }
 
-                // Fallback: treat as final answer
-                $this->memory->addMessage('user', $task);
-                $this->memory->addMessage('assistant', $providerResponse->content);
-
-                $durationMs = (microtime(true) - $start) * 1000;
-                $session->markAsCompleted($totalTokens, $iterations);
-
-                return new AgentResponse(
-                    answer: $providerResponse->content,
-                    sessionId: $session->id,
-                    toolCalls: $this->toolCalls,
-                    iterations: $iterations,
-                    tokensUsed: $totalTokens,
-                    durationMs: $durationMs,
-                    success: true,
-                );
+                // Fallback: not a final answer or tool call — add to messages and loop again
+                $messages[] = ['role' => 'assistant', 'content' => $providerResponse->content];
+                $messages[] = ['role' => 'user', 'content' => 'Please either use a tool or provide your final answer using <final_answer>your answer</final_answer>'];
             }
 
             // Max iterations reached
@@ -156,7 +142,7 @@ class AgentRunner
             Event::dispatch(new AgentFailed($session, $e));
 
             return new AgentResponse(
-                answer: 'Agent encountered an error: ' . $e->getMessage(),
+                answer: 'Agent encountered an error: '.$e->getMessage(),
                 sessionId: $session->id,
                 toolCalls: $this->toolCalls,
                 iterations: $iterations,
@@ -175,7 +161,7 @@ class AgentRunner
             : $this->tools->descriptions($toolNames);
 
         $appContext = implode("\n", array_map(
-            fn($k, $v) => "{$k}: {$v}",
+            fn ($k, $v) => "{$k}: {$v}",
             array_keys($context),
             array_values($context)
         ));
@@ -209,7 +195,7 @@ Rules:
 PROMPT;
 
         if ($customSystem) {
-            $prompt .= "\n\n" . $customSystem;
+            $prompt .= "\n\n".$customSystem;
         }
 
         return $prompt;
@@ -239,9 +225,9 @@ PROMPT;
             );
         }
 
-        // Fallback: treat entire response as final answer
+        // Fallback: unrecognized response — treat as thinking step, loop again
         return new ParsedResponse(
-            type: 'final_answer',
+            type: 'thinking',
             content: $response,
         );
     }
@@ -251,7 +237,7 @@ PROMPT;
         $this->logStep($session, 'tool_call', "Calling {$name}", $name, $params);
 
         try {
-            if (!$this->tools->has($name)) {
+            if (! $this->tools->has($name)) {
                 $result = "ERROR: Tool '{$name}' not found.";
             } else {
                 $tool = $this->tools->get($name);
@@ -259,7 +245,7 @@ PROMPT;
             }
 
             $this->toolCalls[] = [
-                'tool'   => $name,
+                'tool' => $name,
                 'params' => $params,
                 'result' => $result,
             ];
@@ -268,8 +254,9 @@ PROMPT;
 
             return $result;
         } catch (\Throwable $e) {
-            $error = "ERROR: Tool '{$name}' failed: " . $e->getMessage();
+            $error = "ERROR: Tool '{$name}' failed: ".$e->getMessage();
             $this->logStep($session, 'error', $error, $name);
+
             return $error;
         }
     }
@@ -283,18 +270,18 @@ PROMPT;
         ?int $tokensUsed = null,
         ?float $durationMs = null
     ): void {
-        if (!config('laragent.log_steps', true)) {
+        if (! config('laragent.log_steps', true)) {
             return;
         }
 
         AgentLog::create([
             'agent_session_id' => $session->id,
-            'type'             => $type,
-            'content'          => $content,
-            'tool_name'        => $toolName,
-            'tool_parameters'  => $toolParams,
-            'tokens_used'      => $tokensUsed,
-            'duration_ms'      => $durationMs,
+            'type' => $type,
+            'content' => $content,
+            'tool_name' => $toolName,
+            'tool_parameters' => $toolParams,
+            'tokens_used' => $tokensUsed,
+            'duration_ms' => $durationMs,
         ]);
     }
 }

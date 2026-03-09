@@ -23,18 +23,19 @@ use RuntimeException;
 class LocalAiSttDriver extends BaseSttDriver
 {
     private string $host;
+
     private string $model;
 
     public function __construct(array $config = [])
     {
         parent::__construct($config);
-        $this->host  = rtrim($config['host'] ?? 'http://localhost:8080', '/');
+        $this->host = rtrim($config['host'] ?? 'http://localhost:8080', '/');
         $this->model = $config['model'] ?? 'whisper-1';
     }
 
     public function transcribe(string $audioFile): string
     {
-        if (!file_exists($audioFile)) {
+        if (! file_exists($audioFile)) {
             throw new RuntimeException("Audio file not found: {$audioFile}");
         }
 
@@ -46,8 +47,8 @@ class LocalAiSttDriver extends BaseSttDriver
 
         if ($response->failed()) {
             throw new RuntimeException(
-                "LocalAI transcription failed (HTTP {$response->status()}): " . $response->body() . "\n" .
-                "Make sure LocalAI is running: docker run -p 8080:8080 localai/localai:latest whisper"
+                "LocalAI transcription failed (HTTP {$response->status()}): ".$response->body()."\n".
+                'Make sure LocalAI is running: docker run -p 8080:8080 localai/localai:latest whisper'
             );
         }
 
@@ -58,6 +59,7 @@ class LocalAiSttDriver extends BaseSttDriver
     {
         try {
             $response = Http::timeout(3)->get("{$this->host}/v1/models");
+
             return $response->successful();
         } catch (\Throwable) {
             return false;

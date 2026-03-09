@@ -6,9 +6,9 @@ class CodingAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'coding';
+        $this->name = 'coding';
         $this->defaultTools = ['filesystem', 'artisan'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a senior Laravel developer agent.
 
 Standards you must follow:

@@ -9,12 +9,17 @@ use Laragent\Tools\ToolRegistry;
 abstract class AgentPersona
 {
     protected string $name = '';
+
     protected string $systemPrompt = '';
+
     protected array $defaultTools = [];
+
     protected string $defaultModel = '';
 
     protected ToolRegistry $toolRegistry;
+
     protected array $extraTools = [];
+
     protected string $extraSystem = '';
 
     public function __construct(ToolRegistry $toolRegistry)
@@ -32,7 +37,7 @@ abstract class AgentPersona
 
         $system = $this->systemPrompt;
         if ($this->extraSystem) {
-            $system .= "\n\n" . $this->extraSystem;
+            $system .= "\n\n".$this->extraSystem;
         }
         $builder->system($system);
 
@@ -52,6 +57,7 @@ abstract class AgentPersona
     {
         $clone = clone $this;
         $clone->extraTools = array_merge($this->extraTools, $extra);
+
         return $clone;
     }
 
@@ -59,6 +65,7 @@ abstract class AgentPersona
     {
         $clone = clone $this;
         $clone->extraSystem = $addition;
+
         return $clone;
     }
 }

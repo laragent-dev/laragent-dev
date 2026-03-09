@@ -115,8 +115,11 @@ class AgentManager
 
     public function fake(): \Laragent\Testing\AgentFake
     {
+        \Laragent\Testing\AgentFake::reset();
         $fake = new \Laragent\Testing\AgentFake($this->toolRegistry);
         app()->instance('laragent', $fake);
+        \Laragent\Facades\Agent::clearResolvedInstances();
+
         return $fake;
     }
 

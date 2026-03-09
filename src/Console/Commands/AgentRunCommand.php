@@ -31,7 +31,7 @@ class AgentRunCommand extends Command
             $builder->provider($provider);
         }
 
-        if (!empty($tools)) {
+        if (! empty($tools)) {
             $builder->tools($tools);
         }
 
@@ -50,7 +50,8 @@ class AgentRunCommand extends Command
 
             return self::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Agent failed: ' . $e->getMessage());
+            $this->error('Agent failed: '.$e->getMessage());
+
             return self::FAILURE;
         }
     }

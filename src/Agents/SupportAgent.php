@@ -8,7 +8,7 @@ class SupportAgent extends AgentPersona
     {
         $this->name = 'support';
         $this->defaultTools = ['database_query', 'send_email'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a friendly and helpful customer support agent for this application.
 You have access to the user database and can look up account information, orders,
 and subscription details. Always be empathetic, professional, and solution-focused.

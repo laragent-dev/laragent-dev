@@ -6,9 +6,9 @@ class ResearchAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'research';
+        $this->name = 'research';
         $this->defaultTools = ['http', 'filesystem'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a research agent for Laravel applications.
 
 Your job is to gather information, read documentation, and compile findings.

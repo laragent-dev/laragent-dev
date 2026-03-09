@@ -30,15 +30,15 @@ class HttpTool extends BaseTool
     public function parameters(): array
     {
         return [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
-                'url'     => ['type' => 'string', 'description' => 'The URL to request'],
-                'method'  => ['type' => 'string', 'enum' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']],
+                'url' => ['type' => 'string', 'description' => 'The URL to request'],
+                'method' => ['type' => 'string', 'enum' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']],
                 'headers' => ['type' => 'object', 'description' => 'Request headers'],
-                'body'    => ['type' => 'object', 'description' => 'Request body for POST/PUT'],
+                'body' => ['type' => 'object', 'description' => 'Request body for POST/PUT'],
                 'timeout' => ['type' => 'integer', 'description' => 'Timeout in seconds (max 30)'],
             ],
-            'required'   => ['url', 'method'],
+            'required' => ['url', 'method'],
         ];
     }
 
@@ -52,7 +52,7 @@ class HttpTool extends BaseTool
 
         // Security: validate URL scheme
         $parsed = parse_url($url);
-        if (!$parsed || !in_array($parsed['scheme'] ?? '', ['http', 'https'])) {
+        if (! $parsed || ! in_array($parsed['scheme'] ?? '', ['http', 'https'])) {
             return $this->error("Only http:// and https:// URLs are allowed. Got: {$url}");
         }
 
@@ -66,22 +66,22 @@ class HttpTool extends BaseTool
             $request = Http::timeout($timeout)->withHeaders($headers);
 
             $response = match ($method) {
-                'GET'    => $request->get($url),
-                'POST'   => $request->post($url, $body ?? []),
-                'PUT'    => $request->put($url, $body ?? []),
-                'PATCH'  => $request->patch($url, $body ?? []),
+                'GET' => $request->get($url),
+                'POST' => $request->post($url, $body ?? []),
+                'PUT' => $request->put($url, $body ?? []),
+                'PATCH' => $request->patch($url, $body ?? []),
                 'DELETE' => $request->delete($url),
-                default  => throw new \InvalidArgumentException("Unsupported method: {$method}"),
+                default => throw new \InvalidArgumentException("Unsupported method: {$method}"),
             };
 
             $body = $response->body();
             $truncated = strlen($body) > 2000;
             $output = substr($body, 0, 2000);
 
-            return "Status: {$response->status()}\nBody:\n{$output}" .
+            return "Status: {$response->status()}\nBody:\n{$output}".
                 ($truncated ? "\n... (truncated at 2000 chars)" : '');
         } catch (\Exception $e) {
-            return $this->error('HTTP request failed: ' . $e->getMessage());
+            return $this->error('HTTP request failed: '.$e->getMessage());
         }
     }
 

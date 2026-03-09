@@ -8,7 +8,7 @@ class DevAgent extends AgentPersona
     {
         $this->name = 'dev';
         $this->defaultTools = ['filesystem', 'run_artisan', 'http_request'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are an expert Laravel developer assistant. You help with code generation,
 understanding application structure, and development tasks. Be precise and practical.
 Generated code must follow Laravel best practices and PSR-12 standards.

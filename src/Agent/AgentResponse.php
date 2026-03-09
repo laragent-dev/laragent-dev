@@ -29,20 +29,21 @@ class AgentResponse
     {
         $toolCount = count($this->toolCalls);
         $ms = round($this->durationMs);
+
         return "Completed in {$this->iterations} iteration(s), {$toolCount} tool call(s), {$ms}ms";
     }
 
     public function toArray(): array
     {
         return [
-            'answer'      => $this->answer,
-            'session_id'  => $this->sessionId,
-            'tool_calls'  => $this->toolCalls,
-            'iterations'  => $this->iterations,
+            'answer' => $this->answer,
+            'session_id' => $this->sessionId,
+            'tool_calls' => $this->toolCalls,
+            'iterations' => $this->iterations,
             'tokens_used' => $this->tokensUsed,
             'duration_ms' => $this->durationMs,
-            'success'     => $this->success,
-            'error'       => $this->error,
+            'success' => $this->success,
+            'error' => $this->error,
         ];
     }
 

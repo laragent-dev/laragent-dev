@@ -12,21 +12,21 @@ use PHPUnit\Framework\Assert;
 class AgentFake extends AgentManager
 {
     private static array $responses = [];
+
     private static array $calls = [];
+
     private static int $responseIndex = 0;
 
     public function __construct(ToolRegistry $toolRegistry)
     {
         parent::__construct($toolRegistry);
-        static::$responses = [];
-        static::$calls = [];
-        static::$responseIndex = 0;
     }
 
     public static function returns(string $answer): static
     {
         static::$responses[] = $answer;
-        return new static(app(ToolRegistry::class));
+
+        return app('laragent');
     }
 
     public function make(?string $name = null): AgentBuilder
@@ -54,7 +54,7 @@ class AgentFake extends AgentManager
         static::$responseIndex = min(static::$responseIndex + 1, count(static::$responses) - 1);
 
         static::$calls[] = [
-            'task'  => $task,
+            'task' => $task,
             'tools' => $toolNames,
         ];
 
@@ -77,7 +77,7 @@ class AgentFake extends AgentManager
     public static function assertRanWith(string $taskContaining): void
     {
         $found = collect(static::$calls)->contains(
-            fn($call) => str_contains($call['task'], $taskContaining)
+            fn ($call) => str_contains($call['task'], $taskContaining)
         );
 
         Assert::assertTrue($found, "Expected agent to be run with task containing '{$taskContaining}'.");
@@ -86,7 +86,7 @@ class AgentFake extends AgentManager
     public static function assertToolWasCalled(string $tool): void
     {
         $found = collect(static::$calls)->contains(
-            fn($call) => in_array($tool, $call['tools'])
+            fn ($call) => in_array($tool, $call['tools'])
         );
 
         Assert::assertTrue($found, "Expected tool '{$tool}' to have been used.");
@@ -95,7 +95,7 @@ class AgentFake extends AgentManager
     public static function assertToolNotCalled(string $tool): void
     {
         $found = collect(static::$calls)->contains(
-            fn($call) => in_array($tool, $call['tools'])
+            fn ($call) => in_array($tool, $call['tools'])
         );
 
         Assert::assertFalse($found, "Expected tool '{$tool}' to NOT have been used.");
@@ -123,10 +123,10 @@ class AgentFake extends AgentManager
 
     public static function whenTaskContains(string $keyword, string $answer): static
     {
-        $instance = new static(app(ToolRegistry::class));
         // Store as conditional response — checked in recordCall
         static::$responses[] = ['keyword' => $keyword, 'answer' => $answer];
-        return $instance;
+
+        return app('laragent');
     }
 
     public static function reset(): void
@@ -140,6 +140,7 @@ class AgentFake extends AgentManager
 class FakeAgentBuilder extends AgentBuilder
 {
     private AgentFake $fake;
+
     private array $toolNamesForFake = [];
 
     public function __construct(ToolRegistry $toolRegistry, ?string $name, AgentFake $fake)
@@ -151,6 +152,7 @@ class FakeAgentBuilder extends AgentBuilder
     public function tools(array $toolNames): static
     {
         $this->toolNamesForFake = $toolNames;
+
         return parent::tools($toolNames);
     }
 

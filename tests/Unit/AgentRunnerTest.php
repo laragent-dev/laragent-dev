@@ -15,11 +15,11 @@ beforeEach(function () {
 it('returns AgentResponse on successful run', function () {
     Http::fake([
         'localhost:11434/*' => Http::response([
-            'message'           => ['role' => 'assistant', 'content' => '<final_answer>Hello world!</final_answer>'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => '<final_answer>Hello world!</final_answer>'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ]),
     ]);
 
@@ -38,11 +38,11 @@ it('returns AgentResponse on successful run', function () {
 it('exits after max iterations', function () {
     Http::fake([
         'localhost:11434/*' => Http::response([
-            'message'           => ['role' => 'assistant', 'content' => 'Thinking...'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => 'Thinking...'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ]),
     ]);
 
@@ -60,11 +60,11 @@ it('exits after max iterations', function () {
 it('parses final answer correctly', function () {
     Http::fake([
         'localhost:11434/*' => Http::response([
-            'message'           => ['role' => 'assistant', 'content' => '<final_answer>The answer is 42</final_answer>'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => '<final_answer>The answer is 42</final_answer>'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ]),
     ]);
 
@@ -81,21 +81,21 @@ it('parses final answer correctly', function () {
 it('handles tool call response gracefully when tool not registered', function () {
     $responses = [
         [
-            'message'           => [
-                'role'    => 'assistant',
+            'message' => [
+                'role' => 'assistant',
                 'content' => '<tool_call><name>nonexistent_tool</name><parameters>{}</parameters></tool_call>',
             ],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ],
         [
-            'message'           => ['role' => 'assistant', 'content' => '<final_answer>Done despite error</final_answer>'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => '<final_answer>Done despite error</final_answer>'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ],
     ];
 
@@ -120,11 +120,11 @@ it('handles tool call response gracefully when tool not registered', function ()
 it('fires events during agent lifecycle', function () {
     Http::fake([
         'localhost:11434/*' => Http::response([
-            'message'           => ['role' => 'assistant', 'content' => '<final_answer>Done</final_answer>'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => '<final_answer>Done</final_answer>'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ]),
     ]);
 

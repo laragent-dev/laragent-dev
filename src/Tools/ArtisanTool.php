@@ -19,17 +19,18 @@ class ArtisanTool extends BaseTool
     public function parameters(): array
     {
         $safeCommands = config('laragent.safe_commands', []);
+
         return [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
-                'command'   => [
-                    'type'        => 'string',
-                    'description' => 'The artisan command to run. Allowed: ' . implode(', ', $safeCommands),
-                    'enum'        => $safeCommands,
+                'command' => [
+                    'type' => 'string',
+                    'description' => 'The artisan command to run. Allowed: '.implode(', ', $safeCommands),
+                    'enum' => $safeCommands,
                 ],
                 'arguments' => ['type' => 'object', 'description' => 'Optional key-value arguments'],
             ],
-            'required'   => ['command'],
+            'required' => ['command'],
         ];
     }
 
@@ -41,9 +42,9 @@ class ArtisanTool extends BaseTool
         $safeCommands = config('laragent.safe_commands', []);
 
         // Security: only allow safe commands
-        if (!in_array($command, $safeCommands)) {
+        if (! in_array($command, $safeCommands)) {
             return $this->error(
-                "Command '{$command}' is not allowed. Allowed commands: " . implode(', ', $safeCommands)
+                "Command '{$command}' is not allowed. Allowed commands: ".implode(', ', $safeCommands)
             );
         }
 
@@ -53,7 +54,7 @@ class ArtisanTool extends BaseTool
 
             return "Command: {$command}\nExit code: {$exitCode}\nOutput:\n{$output}";
         } catch (\Exception $e) {
-            return $this->error("Artisan command failed: " . $e->getMessage());
+            return $this->error('Artisan command failed: '.$e->getMessage());
         }
     }
 }

@@ -8,7 +8,7 @@ class DataAgent extends AgentPersona
     {
         $this->name = 'data';
         $this->defaultTools = ['database_query'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a data analyst with deep knowledge of this application's data.
 Answer business questions with specific numbers and insights. Always include:
 - The exact query you ran

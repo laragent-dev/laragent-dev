@@ -8,6 +8,7 @@ use Laragent\Models\AgentSession;
 class AgentSessionsCommand extends Command
 {
     protected $signature = 'agent:sessions {--limit=20 : Number of sessions to show}';
+
     protected $description = 'List recent agent sessions';
 
     public function handle(): int
@@ -18,13 +19,14 @@ class AgentSessionsCommand extends Command
 
         if ($sessions->isEmpty()) {
             $this->info('No agent sessions found.');
+
             return self::SUCCESS;
         }
 
         $this->table(
             ['ID', 'Name', 'Provider', 'Model', 'Status', 'Iterations', 'Tokens', 'Started'],
-            $sessions->map(fn($s) => [
-                substr($s->id, 0, 8) . '...',
+            $sessions->map(fn ($s) => [
+                substr($s->id, 0, 8).'...',
                 $s->name ?? '(unnamed)',
                 $s->provider,
                 $s->model,

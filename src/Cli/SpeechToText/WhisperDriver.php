@@ -15,25 +15,27 @@ use RuntimeException;
 class WhisperDriver extends BaseSttDriver
 {
     private string $model;
+
     private string $language;
+
     private string $whisperBin;
 
     public function __construct(array $config = [])
     {
         parent::__construct($config);
-        $this->model      = $config['model'] ?? 'tiny';
-        $this->language   = $config['language'] ?? 'en';
+        $this->model = $config['model'] ?? 'tiny';
+        $this->language = $config['language'] ?? 'en';
         $this->whisperBin = $config['binary'] ?? 'whisper';
     }
 
     public function transcribe(string $audioFile): string
     {
-        if (!file_exists($audioFile)) {
+        if (! file_exists($audioFile)) {
             throw new RuntimeException("Audio file not found: {$audioFile}");
         }
 
         $outputDir = sys_get_temp_dir();
-        $baseName  = pathinfo($audioFile, PATHINFO_FILENAME);
+        $baseName = pathinfo($audioFile, PATHINFO_FILENAME);
 
         // Run whisper CLI
         $cmd = sprintf(
@@ -47,12 +49,12 @@ class WhisperDriver extends BaseSttDriver
 
         exec($cmd, $output, $exitCode);
 
-        $txtFile = $outputDir . '/' . $baseName . '.txt';
+        $txtFile = $outputDir.'/'.$baseName.'.txt';
 
-        if (!file_exists($txtFile)) {
+        if (! file_exists($txtFile)) {
             throw new RuntimeException(
-                "Whisper transcription failed (exit code: {$exitCode}).\n" .
-                "Make sure Whisper is installed: pip install openai-whisper"
+                "Whisper transcription failed (exit code: {$exitCode}).\n".
+                'Make sure Whisper is installed: pip install openai-whisper'
             );
         }
 
@@ -64,7 +66,8 @@ class WhisperDriver extends BaseSttDriver
 
     public function isAvailable(): bool
     {
-        exec($this->whisperBin . ' --help 2>/dev/null', $output, $exitCode);
+        exec($this->whisperBin.' --help 2>/dev/null', $output, $exitCode);
+
         return $exitCode === 0;
     }
 }

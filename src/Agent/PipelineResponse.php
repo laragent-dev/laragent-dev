@@ -16,12 +16,12 @@ class PipelineResponse
     public function toArray(): array
     {
         return [
-            'steps'             => array_map(fn($s) => $s->toArray(), $this->steps),
-            'final_output'      => $this->finalOutput,
-            'total_iterations'  => $this->totalIterations,
-            'total_tokens'      => $this->totalTokens,
+            'steps' => array_map(fn ($s) => $s->toArray(), $this->steps),
+            'final_output' => $this->finalOutput,
+            'total_iterations' => $this->totalIterations,
+            'total_tokens' => $this->totalTokens,
             'total_duration_ms' => $this->totalDurationMs,
-            'success'           => $this->success,
+            'success' => $this->success,
         ];
     }
 }

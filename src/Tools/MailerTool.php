@@ -19,14 +19,14 @@ class MailerTool extends BaseTool
     public function parameters(): array
     {
         return [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
-                'to'        => ['type' => 'string', 'description' => 'Recipient email address'],
-                'subject'   => ['type' => 'string', 'description' => 'Email subject'],
-                'body'      => ['type' => 'string', 'description' => 'Email body (plain text or basic HTML)'],
+                'to' => ['type' => 'string', 'description' => 'Recipient email address'],
+                'subject' => ['type' => 'string', 'description' => 'Email subject'],
+                'body' => ['type' => 'string', 'description' => 'Email body (plain text or basic HTML)'],
                 'from_name' => ['type' => 'string', 'description' => 'Sender name (defaults to app name)'],
             ],
-            'required'   => ['to', 'subject', 'body'],
+            'required' => ['to', 'subject', 'body'],
         ];
     }
 
@@ -38,7 +38,7 @@ class MailerTool extends BaseTool
         $fromName = $params['from_name'] ?? config('app.name', 'Laragent');
 
         // Validate email
-        if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var($to, FILTER_VALIDATE_EMAIL)) {
             return $this->error("Invalid email address: {$to}");
         }
 
@@ -56,7 +56,7 @@ class MailerTool extends BaseTool
 
             return "Email sent successfully to {$to}";
         } catch (\Exception $e) {
-            return $this->error('Failed to send email: ' . $e->getMessage());
+            return $this->error('Failed to send email: '.$e->getMessage());
         }
     }
 }

@@ -21,7 +21,7 @@ class ProviderException extends RuntimeException
     public static function invalidApiKey(string $provider): static
     {
         return new static(
-            "Invalid {$provider} API key. Check " . strtoupper($provider) . "_API_KEY in your .env"
+            "Invalid {$provider} API key. Check ".strtoupper($provider).'_API_KEY in your .env'
         );
     }
 

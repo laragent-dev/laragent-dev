@@ -8,7 +8,9 @@ use Laragent\Exceptions\ProviderException;
 class AnthropicProvider extends BaseProvider
 {
     private const API_URL = 'https://api.anthropic.com/v1/messages';
+
     private const API_VERSION = '2023-06-01';
+
     private const MAX_RETRIES = 3;
 
     public function complete(array $messages, array $options = []): ProviderResponse
@@ -29,9 +31,9 @@ class AnthropicProvider extends BaseProvider
         }
 
         $payload = [
-            'model'      => $model,
+            'model' => $model,
             'max_tokens' => $options['max_tokens'] ?? 4096,
-            'messages'   => $chatMessages,
+            'messages' => $chatMessages,
             'temperature' => $temperature,
         ];
 
@@ -45,9 +47,9 @@ class AnthropicProvider extends BaseProvider
         while ($attempt < self::MAX_RETRIES) {
             $response = Http::timeout($this->config['timeout'] ?? 60)
                 ->withHeaders([
-                    'x-api-key'         => $this->config['api_key'],
+                    'x-api-key' => $this->config['api_key'],
                     'anthropic-version' => self::API_VERSION,
-                    'content-type'      => 'application/json',
+                    'content-type' => 'application/json',
                 ])
                 ->post(self::API_URL, $payload);
 
@@ -64,12 +66,13 @@ class AnthropicProvider extends BaseProvider
                 }
                 sleep($waitSeconds);
                 $waitSeconds *= 2;
+
                 continue;
             }
 
             if ($response->failed()) {
                 throw new \RuntimeException(
-                    'Anthropic request failed: ' . $response->body()
+                    'Anthropic request failed: '.$response->body()
                 );
             }
 

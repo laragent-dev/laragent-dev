@@ -9,6 +9,7 @@ use Laragent\Models\AgentSession;
 class AgentLogsCommand extends Command
 {
     protected $signature = 'agent:logs {session? : Session ID to show logs for} {--limit=50 : Number of logs to show}';
+
     protected $description = 'View agent logs';
 
     public function handle(): int
@@ -19,7 +20,7 @@ class AgentLogsCommand extends Command
         $query = AgentLog::with('session')->latest()->limit($limit);
 
         if ($sessionId) {
-            $session = AgentSession::where('id', 'LIKE', $sessionId . '%')->firstOrFail();
+            $session = AgentSession::where('id', 'LIKE', $sessionId.'%')->firstOrFail();
             $query->where('agent_session_id', $session->id);
         }
 
@@ -27,6 +28,7 @@ class AgentLogsCommand extends Command
 
         if ($logs->isEmpty()) {
             $this->info('No logs found.');
+
             return self::SUCCESS;
         }
 
@@ -36,7 +38,7 @@ class AgentLogsCommand extends Command
                 $log->created_at->format('H:i:s'),
                 strtoupper($log->type),
                 $log->tool_name ?? 'agent',
-                substr($log->content, 0, 100) . (strlen($log->content) > 100 ? '...' : '')
+                substr($log->content, 0, 100).(strlen($log->content) > 100 ? '...' : '')
             ));
         }
 

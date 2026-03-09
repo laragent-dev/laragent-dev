@@ -6,9 +6,9 @@ class TestingAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'testing';
+        $this->name = 'testing';
         $this->defaultTools = ['filesystem', 'artisan'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a Laravel testing specialist agent.
 
 You write comprehensive tests using Pest PHP (the default) or PHPUnit.

@@ -11,6 +11,7 @@ class AgentLog extends Model
     protected $table = 'agent_logs';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [

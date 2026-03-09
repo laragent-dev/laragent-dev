@@ -17,20 +17,20 @@ return [
     */
     'providers' => [
         'ollama' => [
-            'host'    => env('OLLAMA_HOST', 'http://localhost:11434'),
-            'model'   => env('OLLAMA_MODEL', 'llama3.2'),
+            'host' => env('OLLAMA_HOST', 'http://localhost:11434'),
+            'model' => env('OLLAMA_MODEL', 'llama3.2'),
             'timeout' => 120,
         ],
         'anthropic' => [
             'api_key' => env('ANTHROPIC_API_KEY'),
-            'model'   => env('ANTHROPIC_MODEL', 'claude-haiku-4-5'),
+            'model' => env('ANTHROPIC_MODEL', 'claude-haiku-4-5'),
             'timeout' => 60,
         ],
         'openai' => [
-            'api_key'  => env('OPENAI_API_KEY'),
-            'model'    => env('OPENAI_MODEL', 'gpt-4o-mini'),
+            'api_key' => env('OPENAI_API_KEY'),
+            'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
             'base_url' => env('OPENAI_BASE_URL', 'https://api.openai.com/v1'),
-            'timeout'  => 60,
+            'timeout' => 60,
         ],
     ],
 
@@ -102,10 +102,10 @@ return [
     | Language: Language code for Whisper (whisper/whisper_cpp drivers)
     */
     'stt' => [
-        'driver'   => env('LARAGENT_STT_DRIVER', 'localai'),
-        'model'    => env('LARAGENT_STT_MODEL', 'whisper-1'),
-        'host'     => env('LARAGENT_STT_HOST', 'http://localhost:8080'),
-        'seconds'  => (int) env('LARAGENT_STT_SECONDS', 5),
+        'driver' => env('LARAGENT_STT_DRIVER', 'localai'),
+        'model' => env('LARAGENT_STT_MODEL', 'whisper-1'),
+        'host' => env('LARAGENT_STT_HOST', 'http://localhost:8080'),
+        'seconds' => (int) env('LARAGENT_STT_SECONDS', 5),
         'language' => env('LARAGENT_STT_LANGUAGE', 'en'),
     ],
 

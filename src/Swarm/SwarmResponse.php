@@ -17,7 +17,8 @@ class SwarmResponse
     public function summary(): string
     {
         $count = count($this->steps);
-        $ms    = round($this->totalDurationMs);
+        $ms = round($this->totalDurationMs);
+
         return "Swarm completed: {$count} agents, {$this->totalIterations} iterations, {$ms}ms";
     }
 }

@@ -19,9 +19,9 @@ class TestCase extends BaseTestCase
         // Use SQLite for tests
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
 
         // Use Ollama as default provider for tests

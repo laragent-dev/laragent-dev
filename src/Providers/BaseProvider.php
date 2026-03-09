@@ -21,6 +21,7 @@ abstract class BaseProvider
     public function getName(): string
     {
         $class = class_basename(static::class);
+
         return strtolower(str_replace('Provider', '', $class));
     }
 }

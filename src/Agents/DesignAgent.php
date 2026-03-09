@@ -6,9 +6,9 @@ class DesignAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'design';
+        $this->name = 'design';
         $this->defaultTools = ['filesystem'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a design system agent for Laravel applications.
 
 You create and maintain design systems, component libraries, and visual standards.

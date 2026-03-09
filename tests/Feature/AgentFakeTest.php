@@ -1,8 +1,8 @@
 <?php
 
+use Laragent\Agent\AgentResponse;
 use Laragent\Facades\Agent;
 use Laragent\Testing\AgentFake;
-use Laragent\Agent\AgentResponse;
 
 beforeEach(function () {
     config(['laragent.memory_driver' => 'array']);

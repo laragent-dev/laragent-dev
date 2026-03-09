@@ -11,6 +11,7 @@ class AgentSession extends Model
     protected $table = 'agent_sessions';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -30,9 +31,9 @@ class AgentSession extends Model
     ];
 
     protected $casts = [
-        'context'      => 'array',
-        'messages'     => 'array',
-        'started_at'   => 'datetime',
+        'context' => 'array',
+        'messages' => 'array',
+        'started_at' => 'datetime',
         'completed_at' => 'datetime',
     ];
 
@@ -55,7 +56,7 @@ class AgentSession extends Model
     public function markAsRunning(): void
     {
         $this->update([
-            'status'     => 'running',
+            'status' => 'running',
             'started_at' => now(),
         ]);
     }
@@ -63,9 +64,9 @@ class AgentSession extends Model
     public function markAsCompleted(int $tokens, int $iterations): void
     {
         $this->update([
-            'status'           => 'completed',
-            'completed_at'     => now(),
-            'total_tokens'     => $tokens,
+            'status' => 'completed',
+            'completed_at' => now(),
+            'total_tokens' => $tokens,
             'total_iterations' => $iterations,
         ]);
     }
@@ -73,8 +74,8 @@ class AgentSession extends Model
     public function markAsFailed(string $error): void
     {
         $this->update([
-            'status'        => 'failed',
-            'completed_at'  => now(),
+            'status' => 'failed',
+            'completed_at' => now(),
             'error_message' => $error,
         ]);
     }

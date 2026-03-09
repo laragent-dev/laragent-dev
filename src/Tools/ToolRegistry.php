@@ -14,11 +14,11 @@ class ToolRegistry
      * Allows builders to use 'database' instead of 'database_query', etc.
      */
     private const ALIASES = [
-        'database'   => 'database_query',
-        'mailer'     => 'send_email',
-        'mail'       => 'send_email',
-        'http'       => 'http_request',
-        'artisan'    => 'run_artisan',
+        'database' => 'database_query',
+        'mailer' => 'send_email',
+        'mail' => 'send_email',
+        'http' => 'http_request',
+        'artisan' => 'run_artisan',
     ];
 
     public function register(BaseTool $tool): void
@@ -30,9 +30,9 @@ class ToolRegistry
     {
         $resolved = $this->resolve($name);
 
-        if (!isset($this->tools[$resolved])) {
+        if (! isset($this->tools[$resolved])) {
             throw new ToolNotFoundException(
-                "Tool '{$name}' not found. Available tools: " . implode(', ', array_keys($this->tools))
+                "Tool '{$name}' not found. Available tools: ".implode(', ', array_keys($this->tools))
             );
         }
 
@@ -58,6 +58,7 @@ class ToolRegistry
                 $result[$resolved] = $this->tools[$resolved];
             }
         }
+
         return $result;
     }
 

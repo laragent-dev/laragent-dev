@@ -6,9 +6,9 @@ class DocumentationAgent extends AgentPersona
 {
     protected function configure(): void
     {
-        $this->name         = 'docs';
+        $this->name = 'docs';
         $this->defaultTools = ['filesystem'];
-        $this->systemPrompt = <<<PROMPT
+        $this->systemPrompt = <<<'PROMPT'
 You are a technical documentation agent for Laravel applications.
 
 You write documentation that developers will actually read and find useful.

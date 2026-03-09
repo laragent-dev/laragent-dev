@@ -14,25 +14,25 @@ class SwarmOrchestrator
 {
     // Predefined swarm templates for common Laravel development tasks
     private const SWARM_TEMPLATES = [
-        'feature'    => [
+        'feature' => [
             ['planning',      'planner',       'Create an implementation plan for: {task}', ['filesystem']],
             ['coding',        'coder',          'Implement the feature based on this plan: {planning_output}', ['filesystem', 'artisan']],
             ['testing',       'tester',         'Write tests for the implementation described in: {planning_output}', ['filesystem']],
             ['documentation', 'documentation',  'Document the feature and API: {planning_output}', ['filesystem']],
         ],
-        'api'        => [
+        'api' => [
             ['planning',      'planner',       'Plan a REST API for: {task}', ['filesystem']],
             ['coding',        'coder',          'Generate the API controllers and routes: {planning_output}', ['filesystem', 'artisan']],
             ['testing',       'tester',         'Write feature tests for the API endpoints: {planning_output}', ['filesystem']],
             ['documentation', 'documentation',  'Write API documentation: {planning_output}', ['filesystem']],
         ],
-        'frontend'   => [
+        'frontend' => [
             ['planning',      'planner',        'Plan the frontend component for: {task}', ['filesystem']],
             ['uiux',          'uiux',           'Design the UI/UX: {planning_output}', ['filesystem']],
             ['coding',        'coder',          'Implement the frontend components: {uiux_output}', ['filesystem']],
             ['testing',       'tester',         'Write browser and unit tests: {planning_output}', ['filesystem']],
         ],
-        'audit'      => [
+        'audit' => [
             ['research',     'researcher',      'Audit the codebase for issues: {task}', ['filesystem', 'database']],
             ['documentation', 'documentation',  'Write an audit report: {research_output}', ['filesystem']],
         ],

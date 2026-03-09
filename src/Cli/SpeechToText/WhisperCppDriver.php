@@ -17,13 +17,14 @@ use RuntimeException;
 class WhisperCppDriver extends BaseSttDriver
 {
     private string $binary;
+
     private string $model;
 
     public function __construct(array $config = [])
     {
         parent::__construct($config);
         $this->binary = $config['binary'] ?? '/usr/local/bin/whisper-cpp';
-        $this->model  = $config['model_path'] ?? '';
+        $this->model = $config['model_path'] ?? '';
     }
 
     public function transcribe(string $audioFile): string
@@ -50,7 +51,8 @@ class WhisperCppDriver extends BaseSttDriver
 
     public function isAvailable(): bool
     {
-        exec($this->binary . ' --help 2>/dev/null', $output, $exitCode);
+        exec($this->binary.' --help 2>/dev/null', $output, $exitCode);
+
         return file_exists($this->binary);
     }
 }

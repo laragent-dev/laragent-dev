@@ -19,17 +19,17 @@ class OllamaProvider extends BaseProvider
         try {
             $response = Http::timeout($this->config['timeout'] ?? 120)
                 ->post("{$host}/api/chat", [
-                    'model'    => $model,
+                    'model' => $model,
                     'messages' => $messages,
-                    'stream'   => false,
-                    'options'  => [
+                    'stream' => false,
+                    'options' => [
                         'temperature' => $temperature,
                     ],
                 ]);
         } catch (ConnectionException $e) {
             throw new ProviderException(
-                "Ollama is not running. Start it with: ollama serve\n" .
-                "Or install it from: https://ollama.ai"
+                "Ollama is not running. Start it with: ollama serve\n".
+                'Or install it from: https://ollama.ai'
             );
         }
 
@@ -42,7 +42,7 @@ class OllamaProvider extends BaseProvider
 
         if ($response->failed()) {
             throw new \RuntimeException(
-                "Ollama request failed: " . $response->body()
+                'Ollama request failed: '.$response->body()
             );
         }
 
@@ -75,6 +75,7 @@ class OllamaProvider extends BaseProvider
             }
 
             $data = $response->json();
+
             return array_column($data['models'] ?? [], 'name');
         } catch (ConnectionException $e) {
             return [];
@@ -87,6 +88,7 @@ class OllamaProvider extends BaseProvider
 
         try {
             $response = Http::timeout(5)->get($host);
+
             return $response->successful() || $response->status() === 200;
         } catch (ConnectionException $e) {
             return false;

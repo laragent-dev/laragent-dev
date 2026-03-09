@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Laragent\Facades\Agent;
 use Laragent\Agent\PipelineResponse;
+use Laragent\Facades\Agent;
 
 beforeEach(function () {
     config(['laragent.memory_driver' => 'array']);
@@ -13,18 +13,18 @@ it('runs a 2-step pipeline sequentially', function () {
     Http::fake([
         'localhost:11434/api/chat' => Http::sequence()
             ->push([
-                'message'           => ['role' => 'assistant', 'content' => '<final_answer>Step 1 result</final_answer>'],
-                'done'              => true,
-                'done_reason'       => 'stop',
+                'message' => ['role' => 'assistant', 'content' => '<final_answer>Step 1 result</final_answer>'],
+                'done' => true,
+                'done_reason' => 'stop',
                 'prompt_eval_count' => 10,
-                'eval_count'        => 5,
+                'eval_count' => 5,
             ])
             ->push([
-                'message'           => ['role' => 'assistant', 'content' => '<final_answer>Step 2 result</final_answer>'],
-                'done'              => true,
-                'done_reason'       => 'stop',
+                'message' => ['role' => 'assistant', 'content' => '<final_answer>Step 2 result</final_answer>'],
+                'done' => true,
+                'done_reason' => 'stop',
                 'prompt_eval_count' => 10,
-                'eval_count'        => 5,
+                'eval_count' => 5,
             ]),
     ]);
 
@@ -45,27 +45,27 @@ it('injects passOutputAs value into next step task', function () {
     Http::fake([
         'localhost:11434/api/chat' => Http::sequence()
             ->push([
-                'message'           => ['role' => 'assistant', 'content' => '<final_answer>Research output</final_answer>'],
-                'done'              => true,
-                'done_reason'       => 'stop',
+                'message' => ['role' => 'assistant', 'content' => '<final_answer>Research output</final_answer>'],
+                'done' => true,
+                'done_reason' => 'stop',
                 'prompt_eval_count' => 10,
-                'eval_count'        => 5,
+                'eval_count' => 5,
             ])
             ->push([
-                'message'           => ['role' => 'assistant', 'content' => '<final_answer>Final output</final_answer>'],
-                'done'              => true,
-                'done_reason'       => 'stop',
+                'message' => ['role' => 'assistant', 'content' => '<final_answer>Final output</final_answer>'],
+                'done' => true,
+                'done_reason' => 'stop',
                 'prompt_eval_count' => 10,
-                'eval_count'        => 5,
+                'eval_count' => 5,
             ]),
     ]);
 
     $result = Agent::pipeline()
         ->step('researcher')
-            ->task('Research topic')
-            ->passOutputAs('research')
+        ->task('Research topic')
+        ->passOutputAs('research')
         ->step('writer')
-            ->task('Write about: {research}')
+        ->task('Write about: {research}')
         ->run();
 
     expect($result->success)->toBeTrue();
@@ -75,11 +75,11 @@ it('injects passOutputAs value into next step task', function () {
 it('stops pipeline on step failure', function () {
     Http::fake([
         'localhost:11434/api/chat' => Http::response([
-            'message'           => ['role' => 'assistant', 'content' => 'Partial response without final answer'],
-            'done'              => true,
-            'done_reason'       => 'stop',
+            'message' => ['role' => 'assistant', 'content' => 'Partial response without final answer'],
+            'done' => true,
+            'done_reason' => 'stop',
             'prompt_eval_count' => 10,
-            'eval_count'        => 5,
+            'eval_count' => 5,
         ]),
     ]);
 

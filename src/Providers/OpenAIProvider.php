@@ -16,14 +16,14 @@ class OpenAIProvider extends BaseProvider
 
         $response = Http::timeout($this->config['timeout'] ?? 60)
             ->withHeaders([
-                'Authorization' => 'Bearer ' . $this->config['api_key'],
-                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer '.$this->config['api_key'],
+                'Content-Type' => 'application/json',
             ])
             ->post("{$baseUrl}/chat/completions", [
-                'model'       => $model,
-                'messages'    => $messages,
+                'model' => $model,
+                'messages' => $messages,
                 'temperature' => $temperature,
-                'max_tokens'  => $options['max_tokens'] ?? 4096,
+                'max_tokens' => $options['max_tokens'] ?? 4096,
             ]);
 
         if ($response->status() === 401) {
@@ -34,7 +34,7 @@ class OpenAIProvider extends BaseProvider
 
         if ($response->failed()) {
             throw new \RuntimeException(
-                'OpenAI request failed: ' . $response->body()
+                'OpenAI request failed: '.$response->body()
             );
         }
 
@@ -61,7 +61,7 @@ class OpenAIProvider extends BaseProvider
         try {
             $response = Http::timeout(10)
                 ->withHeaders([
-                    'Authorization' => 'Bearer ' . $this->config['api_key'],
+                    'Authorization' => 'Bearer '.$this->config['api_key'],
                 ])
                 ->get("{$baseUrl}/models");
 
@@ -70,6 +70,7 @@ class OpenAIProvider extends BaseProvider
             }
 
             $data = $response->json();
+
             return array_column($data['data'] ?? [], 'id');
         } catch (\Exception $e) {
             return [];
